@@ -27,7 +27,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Rubik:wght@400;500;700;900&family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;600;700&family=Rubik:wght@400;500;700;900&family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --cream: #fdf4e3;
@@ -92,19 +92,60 @@
       z-index: 100;
     }
     .logo {
-      font-family: 'Rubik', sans-serif;
-      font-weight: 900;
-      font-size: 22px;
       color: var(--ink);
-      letter-spacing: -0.01em;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 14px;
+      text-decoration: none;
     }
-    .logo .star {
-      display: inline-block;
-      animation: spin 10s linear infinite;
-      transform-origin: center;
+    .logo-img {
+      width: 72px;
+      height: 72px;
+      border-radius: 14px;
+      border: 3px solid var(--ink);
+      object-fit: cover;
+      background: #1a1a1a;
+      box-shadow: 4px 4px 0 var(--yellow);
+      transition: transform 0.18s cubic-bezier(.3,.9,.4,1.1);
+      flex-shrink: 0;
+    }
+    .logo:hover .logo-img,
+    .logo:focus-visible .logo-img {
+      transform: rotate(-4deg) scale(1.04);
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+      gap: 6px;
+    }
+    .logo-name {
+      font-family: 'Bungee', 'Rubik', sans-serif;
+      font-weight: 400;
+      font-size: 32px;
+      letter-spacing: 2px;
+      color: var(--yellow);
+      text-shadow: 3px 3px 0 var(--ink);
+      line-height: 1;
+    }
+    .logo-tag {
+      font-family: 'Heebo', 'Rubik', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      opacity: 0.9;
+      line-height: 1;
+    }
+    @media (max-width: 720px) {
+      .logo-img { width: 54px; height: 54px; border-radius: 12px; box-shadow: 3px 3px 0 var(--yellow); }
+      .logo-name { font-size: 22px; letter-spacing: 1.4px; text-shadow: 2px 2px 0 var(--ink); }
+      .logo-tag { font-size: 11.5px; }
+    }
+    @media (max-width: 480px) {
+      .logo-img { width: 46px; height: 46px; }
+      .logo-name { font-size: 18px; }
+      .logo-tag { display: none; }
     }
     @keyframes spin {
       from { transform: rotate(0); }
@@ -244,6 +285,24 @@
 
     /* ---------- STICKERS scattered in hero ---------- */
     .sticker { position: absolute; z-index: 1; pointer-events: none; }
+    a.sticker { pointer-events: auto; display: inline-block; text-decoration: none; }
+    .sticker-logo-img {
+      display: block;
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      border: 4px solid var(--ink);
+      object-fit: cover;
+      box-shadow: 5px 5px 0 var(--yellow);
+      background: #1a1a1a;
+      transition: transform 0.2s cubic-bezier(.3,.9,.4,1.1), box-shadow 0.2s ease;
+    }
+    a.sticker:hover .sticker-logo-img,
+    a.sticker:focus-visible .sticker-logo-img {
+      transform: scale(1.05) rotate(-3deg);
+      box-shadow: 8px 8px 0 var(--yellow);
+    }
+    a.sticker:focus-visible { outline: none; }
     .sticker.wiggle { animation: wiggle 5s ease-in-out infinite; transform-origin: center; }
     @keyframes wiggle {
       0%, 100% { transform: rotate(var(--rot, 0deg)); }
@@ -1300,8 +1359,7 @@
       .sticker-controller svg { width: 90px; height: 70px; }
       .stats-inner { grid-template-columns: 1fr; gap: 28px; }
       .stats { padding: 56px 22px 36px; }
-      .site-nav { padding: 14px 18px; }
-      .logo { font-size: 18px; }
+      .site-nav { padding: 12px 18px; }
     }
     @media (max-width: 480px) {
       .hero-ctas { flex-direction: column; align-items: stretch; }
@@ -1313,9 +1371,12 @@
 
   <!-- ============ NAV ============ -->
   <nav class="site-nav" aria-label="ראשי">
-    <a href="#top" class="logo" aria-label="גיימינג בחינוך — לדף הבית">
-      <span class="star" aria-hidden="true">★</span>
-      <span>גיימינג בחינוך</span>
+    <a href="https://lemons-gaming.github.io/" class="logo" aria-label="Lemons Gaming — לאתר הראשי">
+      <img src="assets/lemons-logo.jpg" alt="Lemons Gaming" class="logo-img" width="56" height="56">
+      <span class="logo-text">
+        <span class="logo-name">LEMONS GAMING</span>
+        <span class="logo-tag">גיימינג בחינוך · סילבוס</span>
+      </span>
     </a>
     <ul class="nav-menu">
       <li><a href="#worlds">עולמות</a></li>
@@ -1328,20 +1389,10 @@
   <!-- ============ HERO ============ -->
   <header class="hero" id="top">
 
-    <!-- Sticker: circle badge with orbiting text -->
-    <div class="sticker sticker-badge wiggle" aria-hidden="true">
-      <svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <path id="circlePath" d="M 64,64 m -46,0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0"/>
-        </defs>
-        <circle cx="64" cy="64" r="58" fill="#ff4f93" stroke="#1a1a1a" stroke-width="3"/>
-        <circle cx="64" cy="64" r="32" fill="#fdf4e3" stroke="#1a1a1a" stroke-width="3"/>
-        <text font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="12" fill="#1a1a1a" letter-spacing="2">
-          <textPath href="#circlePath" startOffset="0">★ PLAY ★ LEARN ★ BUILD ★ LEVEL UP ★</textPath>
-        </text>
-        <text x="64" y="70" text-anchor="middle" font-family="'Rubik', sans-serif" font-weight="900" font-size="22" fill="#1a1a1a">29</text>
-      </svg>
-    </div>
+    <!-- Sticker: Lemons Gaming logo badge -->
+    <a href="https://lemons-gaming.github.io/" class="sticker sticker-badge wiggle" aria-label="Lemons Gaming">
+      <img src="assets/lemons-logo.jpg" alt="Lemons Gaming" width="128" height="128" class="sticker-logo-img">
+    </a>
 
     <!-- Sticker: yellow star -->
     <div class="sticker sticker-star wiggle" aria-hidden="true">
