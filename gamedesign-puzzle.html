@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>עיצוב משחקי פתרון בעיות · מרכז הכלים של יוצר המשחקים</title>
+    <link rel="icon" href="assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&amp;family=Assistant:wght@300;400;700&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00ff9d;
+            --background-color: #121212;
+            --surface-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --header-font: 'Orbitron', sans-serif;
+            --body-font: 'Assistant', sans-serif;
+        }
+
+        body {
+            font-family: var(--body-font);
+            line-height: 1.7;
+            margin: 0;
+            padding: 20px;
+            background: var(--background-color);
+            color: var(--text-color);
+            text-align: right;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .back-bar {
+            max-width: 900px;
+            margin: 0 auto 16px;
+            display: flex;
+            justify-content: flex-start;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-weight: bold;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+        }
+        .back-link:hover {
+            background: var(--primary-color);
+            color: var(--background-color);
+            box-shadow: 0 0 15px var(--primary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: var(--surface-color);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid var(--primary-color);
+            box-shadow: 0 0 25px rgba(0, 255, 157, 0.2);
+        }
+
+        header h1 {
+            font-family: var(--header-font);
+            text-align: center;
+            font-size: 2.8em;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            text-align: center;
+            font-size: 1.1em;
+            color: #b0b0b0;
+        }
+
+        .navigation {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .nav-link {
+            cursor: pointer;
+            padding: 8px 15px;
+            border: 1px solid var(--primary-color);
+            border-radius: 20px;
+            background: transparent;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary-color);
+            color: var(--background-color);
+            box-shadow: 0 0 15px var(--primary-color);
+        }
+
+        .page-content {
+            border-top: 1px solid #444;
+            padding-top: 20px;
+        }
+
+        h2 {
+            font-family: var(--header-font);
+            font-size: 2em;
+            color: var(--primary-color);
+        }
+        h3 {
+            font-size: 1.5em;
+            color: #fff;
+        }
+
+        .media {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border-radius: 8px;
+            border: 2px solid var(--primary-color);
+        }
+
+        .page {
+            opacity: 0;
+            visibility: hidden;
+            height: 0;
+            overflow: hidden;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .page.active {
+            opacity: 1;
+            visibility: visible;
+            height: auto;
+        }
+        ul {
+            list-style: none;
+            padding-right: 0;
+        }
+        li {
+            margin-bottom: 12px;
+            padding-right: 25px;
+            position: relative;
+        }
+        li::before {
+            content: '>';
+            position: absolute;
+            right: 0;
+            top: 2px;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* Styled Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--surface-color); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00e68a; }
+    </style>
+</head>
+<body>
+
+    <div class="back-bar">
+        <a class="back-link" href="index.html#w10">→ חזרה לסילבוס</a>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>מרכז הכלים של יוצר המשחקים</h1>
+            <p>עקרונות חיוניים לעיצוב פאזלים, מבוסס על הסרטון של Game Maker's Toolkit.</p>
+        </header>
+
+        <nav class="navigation">
+            <a class="nav-link active" onclick="showPage('home', event)">בית</a>
+            <a class="nav-link" onclick="showPage('mechanics', event)">מכניקה</a>
+            <a class="nav-link" onclick="showPage('catch', event)">קאץ'</a>
+            <a class="nav-link" onclick="showPage('revelation', event)">גילוי</a>
+            <a class="nav-link" onclick="showPage('assumption', event)">הנחה</a>
+            <a class="nav-link" onclick="showPage('presentation', event)">הצגה</a>
+            <a class="nav-link" onclick="showPage('curve', event)">עקומה</a>
+            <a class="nav-link" onclick="showPage('summary', event)">סיכום</a>
+        </nav>
+
+        <main>
+            <div id="home" class="page active">
+                <div class="page-content">
+                    <h2>ברוכים הבאים!</h2>
+                    <video class="media" src="assets/gamedesign/puzzle/puzzle-1.mp4" autoplay loop muted playsinline></video>
+                    <p>התחילו את המסע שלכם בעולם עיצוב הפאזלים. בחרו נושא מהתפריט למעלה כדי להתחיל.</p>
+                </div>
+            </div>
+
+            <div id="mechanics" class="page">
+                <div class="page-content">
+                    <h2>1. המכניקה</h2>
+                    <video class="media" src="assets/gamedesign/puzzle/puzzle-2.mp4" autoplay loop muted playsinline></video>
+                    <h3>עיקרון מנחה: חוקים ברורים ומטרה בהירה.</h3>
+                    <ul>
+                        <li><b>המגבלות חשובות יותר מהיכולות:</b> הן אלו שיוצרות את האתגר האמיתי.</li>
+                        <li><b>בהירות המטרה:</b> השחקן תמיד צריך לדעת מה המטרה. הפאזל הוא ה"איך", לא ה"מה".</li>
+                        <li><b>החוקים הם מגרש המשחקים:</b> חוקים עקביים מאפשרים לשחקן למצוא פתרונות יצירתיים.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="catch" class="page">
+                 <div class="page-content">
+                    <h2>2. הקאץ'</h2>
+                    <video class="media" src="assets/gamedesign/puzzle/puzzle-3.mp4" autoplay loop muted playsinline></video>
+                    <h3>עיקרון מנחה: הניגוד הלוגי.</h3>
+                    <ul>
+                        <li><b>"אני צריך להיות בשני מקומות בבת אחת":</b> הקאץ' יוצר קונפליקט שמצריך פתרון יצירתי.</li>
+                        <li><b>הפתרון הוא דרך שלישית:</b> במקום לבחור בין שתי פעולות סותרות, השחקן צריך למצוא דרך לעקוף את הסתירה.</li>
+                        <li><b>מייצר סיפוק:</b> התגברות על "קאץ'" היא רגע מתגמל הדורש שינוי תפיסתי.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="revelation" class="page">
+                 <div class="page-content">
+                    <h2>3. הגילוי</h2>
+                    <video class="media" src="assets/gamedesign/puzzle/puzzle-4.mp4" autoplay loop muted playsinline></video>
+                    <h3>עיקרון מנחה: רגע ה"יוריקה!".</h3>
+                    <ul>
+                        <li><b>יותר מביצוע צעדים:</b> הפתרון הוא הבנה של קונספט חדש, לא רק סדרת פעולות נכונה.</li>
+                        <li><b>כלי לשימוש חוזר:</b> הגילוי הופך לחלק מהידע של השחקן ומשמש אותו בחידות מורכבות יותר בעתיד.</li>
+                        <li><b>הגיוני, אך לא מובן מאליו:</b> הפתרון המושלם טמון בחוקי המשחק, אך דורש מהשחקן לגלות אותו.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="assumption" class="page">
+                <div class="page-content">
+                    <h2>4. ההנחה</h2>
+                    <video class="media" src="assets/gamedesign/puzzle/puzzle-5.mp4" autoplay loop muted playsinline></video>
+                    <h3>עיקרון מנחה: הטעיה מתוחכמת.</h3>
+                    <ul>
+                        <li><b>הסחות דעת (Red Herrings):</b> מעצב טוב יכול להוביל את השחקן להניח הנחה שגויה, מה שהופך את הפתרון למספק יותר.</li>
+                        <li><b>חשיבה לטרלית:</b> הפתרון דורש מהשחקן לזהות ולשבור את ההנחה הראשונית שלו.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="presentation" class="page">
+                <div class="page-content">
+                    <h2>5. ההצגה</h2>
+                    <video class="media" src="assets/gamedesign/puzzle/puzzle-6.mp4" autoplay loop muted playsinline></video>
+                    <h3>עיקרון מנחה: בהירות ומשוב.</h3>
+                    <ul>
+                        <li><b>כל אלמנט משרת מטרה:</b> פאזל נקי מאלמנטים מיותרים מאפשר לשחקן להתמקד בבעיה.</li>
+                        <li><b>משוב ויזואלי ברור:</b> השחקן חייב להבין את הקשר בין פעולותיו לתוצאות באופן מיידי.</li>
+                        <li><b>הגדרת הבלתי אפשרי:</b> חשוב לסמן לשחקן מה הוא לא יכול לעשות כדי למנוע תסכול.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="curve" class="page">
+                <div class="page-content">
+                    <h2>6. העקומה</h2>
+                    <video class="media" src="assets/gamedesign/puzzle/puzzle-7.mp4" autoplay loop muted playsinline></video>
+                    <h3>עיקרון מנחה: בניית קושי הדרגתית.</h3>
+                    <ul>
+                        <li><b>הסדר קובע:</b> כל פאזל צריך להתבסס על מה שנלמד בפאזלים הקודמים.</li>
+                        <li><b>מורכבות אורגנית:</b> עקומת קושי טובה משלבת מכניקות ישנות בדרכים חדשות כדי ליצור אתגרים מורכבים יותר.</li>
+                        <li><b>חשיבות הפליי-טסטינג:</b> רק בדיקות עם שחקנים אמיתיים יכולות לאמת שעקומת הקושי מאוזנת.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="summary" class="page">
+                <div class="page-content">
+                    <h2>סיכום: מה הופך פאזל לטוב?</h2>
+                    <video class="media" src="assets/gamedesign/puzzle/puzzle-8.mp4" autoplay loop muted playsinline></video>
+                    <p>פאזל מוצלח הוא מסע קטן של למידה, שבו השחקן:</p>
+                    <ol>
+                        <li><b>מבין</b> את המכניקה והמטרה.</li>
+                        <li><b>נתקל</b> בקאץ' שנראה בלתי עביר.</li>
+                        <li><b>מגלה</b> תובנה חדשה לגבי חוקי המשחק.</li>
+                        <li><b>שובר</b> הנחות קודמות כדי ליישם את התובנה.</li>
+                    </ol>
+                    <p>עיצוב פאזלים הוא אומנות מורכבת של הוראה, הטעיה ותגמול, וכשהוא נעשה נכון, הוא יוצר כמה מהרגעים הבלתי נשכחים ביותר במשחקי וידאו.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function showPage(pageId, evt) {
+            document.querySelectorAll('.page').forEach(function(page) {
+                page.classList.remove('active');
+                var pv = page.querySelector('video');
+                if (pv) { pv.pause(); }
+            });
+            var active = document.getElementById(pageId);
+            active.classList.add('active');
+            var v = active.querySelector('video');
+            if (v) { v.currentTime = 0; var p = v.play(); if (p && p.catch) { p.catch(function(){}); } }
+
+            document.querySelectorAll('.nav-link').forEach(function(link) {
+                link.classList.remove('active');
+            });
+            (evt && evt.currentTarget ? evt.currentTarget : window.event.currentTarget).classList.add('active');
+
+            window.scrollTo(0, 0);
+        }
+    </script>
+
+</body>
+</html>
