@@ -83,7 +83,7 @@
     <div style="display:flex; align-items:center; gap:10px; pointer-events:auto;">
       <span class="counter" id="counter">1 / 1</span>
       <button class="corner-btn" id="fsBtn" title="מסך מלא">⛶ מסך מלא</button>
-      <a class="corner-btn" href="index.html#w10" title="חזרה לסילבוס">✕ יציאה</a>
+      <a class="corner-btn" id="exitLink" href="index.html#w10" title="חזרה לסילבוס">✕ יציאה</a>
     </div>
   </div>
 
@@ -109,15 +109,18 @@
       8: { count:12, title:"פרק 8 · עיצוב מבעד לצללים — Limbo" },
       9: { count:15, title:"פרק 9 · האשליה המושלמת — The Last of Us" },
       10: { count:15, title:"פרק 10 · האנטומיה של הבחירה — Detroit: Become Human" },
-      11: { count:12, title:"פרק 11 · אמנות המתנקש — Assassin's Creed" }
+      11: { count:12, title:"פרק 11 · אמנות המתנקש — Assassin's Creed" },
+      // course session decks (not Game Design chapters)
+      opening: { count:11, title:"מצגת פתיחה · גיימינג בחינוך", dir:"assets/decks/opening", back:"index.html#w1" },
+      genres:  { count:19, title:"סוגי משחקי מחשב · ז'אנרים", dir:"assets/decks/genres", back:"index.html#w1" }
     };
 
     function param(name){
       var m = new RegExp('[?&]'+name+'=([^&]+)').exec(location.search);
       return m ? decodeURIComponent(m[1]) : null;
     }
-    var deckId = parseInt(param('deck'), 10);
-    if (!DECKS[deckId]) deckId = 1;
+    var deckId = param('deck');
+    if (!deckId || !DECKS[deckId]) deckId = 1;
     var deck = DECKS[deckId];
     var total = deck.count;
     var idx = 0; // 0-based
@@ -129,9 +132,12 @@
     var dotsEl    = document.getElementById('dots');
 
     document.getElementById('deckTitle').textContent = deck.title;
+    var backHref = deck.back || 'index.html#w10';
+    document.getElementById('exitLink').setAttribute('href', backHref);
 
     function pad(n){ return n < 10 ? '0'+n : ''+n; }
-    function src(i){ return 'assets/gamedesign/deck'+deckId+'/slide-'+pad(i+1)+'.jpg'; }
+    var deckDir = deck.dir || ('assets/gamedesign/deck'+deckId);
+    function src(i){ return deckDir+'/slide-'+pad(i+1)+'.jpg'; }
 
     // build dots
     for (var i=0;i<total;i++){
@@ -175,7 +181,7 @@
         case 'ArrowRight': case 'PageUp': case 'Backspace': prev(); e.preventDefault(); break;
         case 'Home': go(0); break;
         case 'End': go(total-1); break;
-        case 'Escape': if(document.fullscreenElement){ /* browser exits FS itself */ } else { location.href='index.html#w10'; } break;
+        case 'Escape': if(document.fullscreenElement){ /* browser exits FS itself */ } else { location.href=backHref; } break;
         case 'f': case 'F': toggleFs(); break;
       }
     });
