@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>גיימינג בחינוך · סילבוס הקורס</title>
-  <meta name="description" content="קורס גיימינג בחינוך — לימוד מיומנויות דרך משחקי מחשב · 43 מפגשים · 10 עולמות">
+  <meta name="description" content="קורס גיימינג בחינוך — לימוד מיומנויות דרך משחקי מחשב · 43 מפגשים · 12 עולמות">
 
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
@@ -14,7 +14,7 @@
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="גיימינג בחינוך · סילבוס הקורס">
-  <meta property="og:description" content="לימוד מיומנויות דרך משחקי מחשב · 43 מפגשים · 10 עולמות">
+  <meta property="og:description" content="לימוד מיומנויות דרך משחקי מחשב · 43 מפגשים · 12 עולמות">
   <meta property="og:image" content="https://lemons-gaming.github.io/gaming-syllabus/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -22,7 +22,7 @@
   <meta property="og:locale" content="he_IL">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="גיימינג בחינוך · סילבוס הקורס">
-  <meta name="twitter:description" content="לימוד מיומנויות דרך משחקי מחשב · 43 מפגשים · 10 עולמות">
+  <meta name="twitter:description" content="לימוד מיומנויות דרך משחקי מחשב · 43 מפגשים · 12 עולמות">
   <meta name="twitter:image" content="https://lemons-gaming.github.io/gaming-syllabus/assets/og-image.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -534,6 +534,8 @@
     .world-card[data-world="8"] .world-illustration { background: #ffd9e9; }
     .world-card[data-world="9"] .world-illustration { background: #1a1a1a; }
     .world-card[data-world="10"] .world-illustration { background: #e4d5ff; }
+    .world-card[data-world="11"] .world-illustration { background: #cee6ff; }
+    .world-card[data-world="12"] .world-illustration { background: #ffd9e9; }
 
     .world-body {
       padding: 22px 24px 26px;
@@ -711,6 +713,8 @@
     .world-panel[data-world="8"] { box-shadow: 6px 6px 0 var(--mint); }
     .world-panel[data-world="9"] { box-shadow: 6px 6px 0 var(--yellow); }
     .world-panel[data-world="10"] { box-shadow: 6px 6px 0 var(--lavender); }
+    .world-panel[data-world="11"] { box-shadow: 6px 6px 0 var(--sky); }
+    .world-panel[data-world="12"] { box-shadow: 6px 6px 0 var(--pink); }
 
     .world-panel summary {
       list-style: none;
@@ -747,6 +751,8 @@
     .world-panel[data-world="8"] .panel-num { background: var(--mint); color: var(--ink); }
     .world-panel[data-world="9"] .panel-num { background: var(--ink); color: var(--yellow); }
     .world-panel[data-world="10"] .panel-num { background: var(--lavender); color: var(--cream); }
+    .world-panel[data-world="11"] .panel-num { background: var(--sky); color: var(--cream); }
+    .world-panel[data-world="12"] .panel-num { background: var(--pink); color: var(--cream); }
 
     .panel-title { flex: 1; display: flex; flex-direction: column; gap: 4px; }
     .panel-title h3 {
@@ -1499,7 +1505,7 @@
         <div class="stat-note">ממפגש פתיחה ועד משחק משלך — כולל AI</div>
       </div>
       <div class="stat">
-        <div class="stat-num mint">10</div>
+        <div class="stat-num mint">12</div>
         <div class="stat-label">Worlds · עולמות</div>
         <div class="stat-note">יצירתיות, אסטרטגיה, מיינקראפט, AI, Game Design ועוד</div>
       </div>
@@ -1557,7 +1563,7 @@
         <h2>העולמות<span class="star-inline">★</span></h2>
       </div>
       <p class="head-blurb">
-        עשרה עולמות. כל אחד מכוון למיומנות אחרת. חלק עם משחק בודד עמוק,
+        שתים-עשרה עולמות. כל אחד מכוון למיומנות אחרת. חלק עם משחק בודד עמוק,
         חלק עם סדרה של ז'אנרים — ובסוף, מסלול בונוס שלם של עיצוב משחקים (Game Design).
       </p>
     </div>
@@ -1965,45 +1971,98 @@
         </div>
       </a>
 
-      <!-- World 10: Game Design (bonus track) -->
-      <a href="#w10" class="world-card shadow-lavender tilt-right" data-world="10" aria-label="עולם 10 — Game Design (חדש)">
+      <!-- World 10: Game Design 1 (bonus track, part 1) -->
+      <a href="#w10" class="world-card shadow-lavender tilt-right" data-world="10" aria-label="עולם 10 — Game Design 1 (חדש)">
         <span class="card-sticker new">★ חדש</span>
         <div class="world-illustration">
           <svg width="200" height="140" viewBox="0 0 200 140" aria-hidden="true">
-            <!-- blueprint grid -->
             <g stroke="#1a1a1a" stroke-width="0.7" opacity="0.12">
-              <line x1="0" y1="35" x2="200" y2="35"/>
-              <line x1="0" y1="70" x2="200" y2="70"/>
-              <line x1="0" y1="105" x2="200" y2="105"/>
-              <line x1="50" y1="0" x2="50" y2="140"/>
-              <line x1="100" y1="0" x2="100" y2="140"/>
-              <line x1="150" y1="0" x2="150" y2="140"/>
+              <line x1="0" y1="35" x2="200" y2="35"/><line x1="0" y1="70" x2="200" y2="70"/><line x1="0" y1="105" x2="200" y2="105"/>
+              <line x1="50" y1="0" x2="50" y2="140"/><line x1="100" y1="0" x2="100" y2="140"/><line x1="150" y1="0" x2="150" y2="140"/>
             </g>
-            <!-- elemental tetrad: connecting lines -->
             <g stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" fill="none">
-              <path d="M100 26 L154 70 L100 114 L46 70 Z"/>
-              <line x1="100" y1="26" x2="100" y2="114"/>
-              <line x1="46" y1="70" x2="154" y2="70"/>
+              <path d="M100 26 L154 70 L100 114 L46 70 Z"/><line x1="100" y1="26" x2="100" y2="114"/><line x1="46" y1="70" x2="154" y2="70"/>
             </g>
-            <!-- four element nodes -->
             <circle cx="100" cy="26" r="13" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.5"/>
             <circle cx="154" cy="70" r="13" fill="#6ee7b7" stroke="#1a1a1a" stroke-width="2.5"/>
             <circle cx="100" cy="114" r="13" fill="#ff4f93" stroke="#1a1a1a" stroke-width="2.5"/>
             <circle cx="46" cy="70" r="13" fill="#38bdf8" stroke="#1a1a1a" stroke-width="2.5"/>
-            <!-- center: experience -->
-            <circle cx="100" cy="70" r="9" fill="#fdf4e3" stroke="#1a1a1a" stroke-width="2.5"/>
-            <text x="100" y="74" text-anchor="middle" font-family="'Space Grotesk'" font-weight="700" font-size="11" fill="#1a1a1a">★</text>
-            <!-- corner spec text -->
-            <text x="10" y="18" font-family="'Space Grotesk'" font-weight="700" font-size="8.5" fill="#1a1a1a" letter-spacing="1.2" opacity="0.55">GAME DESIGN / BONUS</text>
+            <circle cx="100" cy="70" r="11" fill="#fdf4e3" stroke="#1a1a1a" stroke-width="2.5"/>
+            <text x="100" y="75" text-anchor="middle" font-family="'Space Grotesk'" font-weight="700" font-size="13" fill="#1a1a1a">1</text>
+            <text x="10" y="18" font-family="'Space Grotesk'" font-weight="700" font-size="8.5" fill="#1a1a1a" letter-spacing="1.2" opacity="0.55">GAME DESIGN / PART 1</text>
           </svg>
         </div>
         <div class="world-body">
           <div class="world-meta">
-            <span>World 10</span><span class="dot-sep">·</span><span>6 פרקים + מיוחד</span>
+            <span>World 10</span><span class="dot-sep">·</span><span>4 פרקים</span>
             <span class="pill new">חדש</span>
           </div>
-          <h3 class="world-title">Game Design</h3>
-          <p class="world-desc">מסלול בונוס בעיצוב משחקים, על בסיס "אמנות עיצוב המשחק" לג'סי של — דרך מריו, מיינקראפט, It Takes Two, SimCity ו-Overcooked. 6 מצגות במצב מצגת מלא + פרק מיוחד אינטראקטיבי על עיצוב פאזלים.</p>
+          <h3 class="world-title">Game Design 1</h3>
+          <p class="world-desc">יסודות עיצוב המשחקים: מי הוא המעצב, החוויה, והרביעייה היסודית — דרך מריו, מיינקראפט, It Takes Two ו-SimCity.</p>
+          <div class="world-arrow"><span>לפרטים</span><span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <!-- World 11: Game Design 2 (bonus track, part 2) -->
+      <a href="#w11" class="world-card shadow-sky tilt-left" data-world="11" aria-label="עולם 11 — Game Design 2 (חדש)">
+        <span class="card-sticker new">★ חדש</span>
+        <div class="world-illustration">
+          <svg width="200" height="140" viewBox="0 0 200 140" aria-hidden="true">
+            <g stroke="#1a1a1a" stroke-width="0.7" opacity="0.12">
+              <line x1="0" y1="35" x2="200" y2="35"/><line x1="0" y1="70" x2="200" y2="70"/><line x1="0" y1="105" x2="200" y2="105"/>
+              <line x1="50" y1="0" x2="50" y2="140"/><line x1="100" y1="0" x2="100" y2="140"/><line x1="150" y1="0" x2="150" y2="140"/>
+            </g>
+            <g stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" fill="none">
+              <path d="M100 26 L154 70 L100 114 L46 70 Z"/><line x1="100" y1="26" x2="100" y2="114"/><line x1="46" y1="70" x2="154" y2="70"/>
+            </g>
+            <circle cx="100" cy="26" r="13" fill="#6ee7b7" stroke="#1a1a1a" stroke-width="2.5"/>
+            <circle cx="154" cy="70" r="13" fill="#ff4f93" stroke="#1a1a1a" stroke-width="2.5"/>
+            <circle cx="100" cy="114" r="13" fill="#38bdf8" stroke="#1a1a1a" stroke-width="2.5"/>
+            <circle cx="46" cy="70" r="13" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.5"/>
+            <circle cx="100" cy="70" r="11" fill="#fdf4e3" stroke="#1a1a1a" stroke-width="2.5"/>
+            <text x="100" y="75" text-anchor="middle" font-family="'Space Grotesk'" font-weight="700" font-size="13" fill="#1a1a1a">2</text>
+            <text x="10" y="18" font-family="'Space Grotesk'" font-weight="700" font-size="8.5" fill="#1a1a1a" letter-spacing="1.2" opacity="0.55">GAME DESIGN / PART 2</text>
+          </svg>
+        </div>
+        <div class="world-body">
+          <div class="world-meta">
+            <span>World 11</span><span class="dot-sep">·</span><span>3 פרקים + אתר</span>
+            <span class="pill new">חדש</span>
+          </div>
+          <h3 class="world-title">Game Design 2</h3>
+          <p class="world-desc">כאוס מתוכנן, בניית אגדה ואסתטיקה — דרך Overcooked ו-Red Alert 3, ובנוסף אתר אינטראקטיבי על עיצוב משחקי פתרון בעיות.</p>
+          <div class="world-arrow"><span>לפרטים</span><span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <!-- World 12: Game Design 3 (bonus track, part 3) -->
+      <a href="#w12" class="world-card shadow-pink" data-world="12" aria-label="עולם 12 — Game Design 3 (חדש)">
+        <span class="card-sticker new">★ חדש</span>
+        <div class="world-illustration">
+          <svg width="200" height="140" viewBox="0 0 200 140" aria-hidden="true">
+            <g stroke="#1a1a1a" stroke-width="0.7" opacity="0.12">
+              <line x1="0" y1="35" x2="200" y2="35"/><line x1="0" y1="70" x2="200" y2="70"/><line x1="0" y1="105" x2="200" y2="105"/>
+              <line x1="50" y1="0" x2="50" y2="140"/><line x1="100" y1="0" x2="100" y2="140"/><line x1="150" y1="0" x2="150" y2="140"/>
+            </g>
+            <g stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" fill="none">
+              <path d="M100 26 L154 70 L100 114 L46 70 Z"/><line x1="100" y1="26" x2="100" y2="114"/><line x1="46" y1="70" x2="154" y2="70"/>
+            </g>
+            <circle cx="100" cy="26" r="13" fill="#ff4f93" stroke="#1a1a1a" stroke-width="2.5"/>
+            <circle cx="154" cy="70" r="13" fill="#38bdf8" stroke="#1a1a1a" stroke-width="2.5"/>
+            <circle cx="100" cy="114" r="13" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.5"/>
+            <circle cx="46" cy="70" r="13" fill="#6ee7b7" stroke="#1a1a1a" stroke-width="2.5"/>
+            <circle cx="100" cy="70" r="11" fill="#fdf4e3" stroke="#1a1a1a" stroke-width="2.5"/>
+            <text x="100" y="75" text-anchor="middle" font-family="'Space Grotesk'" font-weight="700" font-size="13" fill="#1a1a1a">3</text>
+            <text x="10" y="18" font-family="'Space Grotesk'" font-weight="700" font-size="8.5" fill="#1a1a1a" letter-spacing="1.2" opacity="0.55">GAME DESIGN / PART 3</text>
+          </svg>
+        </div>
+        <div class="world-body">
+          <div class="world-meta">
+            <span>World 12</span><span class="dot-sep">·</span><span>2 פרקים</span>
+            <span class="pill new">חדש</span>
+          </div>
+          <h3 class="world-title">Game Design 3</h3>
+          <p class="world-desc">פסיכולוגיית השחקן ואשליית האימרסיה — דרך Limbo ו-The Last of Us.</p>
           <div class="world-arrow"><span>לפרטים</span><span class="arrow">→</span></div>
         </div>
       </a>
@@ -2464,7 +2523,7 @@
               <img src="assets/games/loom.png" alt="Loom" loading="lazy">
               <div class="credit">© Loom / Lucasfilm Games</div>
             </div>
-            <p class="session-desc">רטרו, חשיבה מורכבת, עברית, זיכרון. ייתכן שנוריד לקובץ עבור אודיו וחוויה שלמה.</p>
+            <p class="session-desc">רטרו, חשיבה מורכבת, עברית, זיכרון. קווסט פופולרי עם מכניקה ייחודית.</p>
             <div class="session-links">
               <a class="link-chip play" href="https://www.old-games.org/games/loomh" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-play"/></svg>האורגים</a>
             </div>
@@ -2626,9 +2685,9 @@
               <img src="assets/games/hivemind.gif" alt="Hivemind" loading="lazy">
               <div class="credit">© Hivemind / Demberg Studios</div>
             </div>
-            <p class="session-desc">להכיר סוגי מכניקות: להכניס זוג יחד, טנק, סקי, רכבת הכורים.</p>
+            <p class="session-desc">להכיר סוגי מכניקות: זוג יחד, טנק, סקי, רכבת הכורים.</p>
             <div class="session-links">
-              <a class="link-chip play" href="https://demberg-studios.itch.io/hivemind" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-play"/></svg>להכניס זוג יחד</a>
+              <a class="link-chip play" href="https://demberg-studios.itch.io/hivemind" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-play"/></svg>זוג יחד</a>
               <a class="link-chip play" href="https://asterby.itch.io/assault-tank-alien-invasion" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-play"/></svg>טנק</a>
               <a class="link-chip play" href="https://poki.com/il/g/bro-ski" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-play"/></svg>סקי</a>
             </div>
@@ -3180,13 +3239,13 @@
         </div>
       </details>
 
-      <!-- ===== World 10: Game Design (bonus) ===== -->
+      <!-- ===== World 10: Game Design 1 (bonus, part 1 · chapters 1-4) ===== -->
       <details class="world-panel" data-world="10" id="w10">
         <summary>
           <div class="panel-num">WORLD 10</div>
           <div class="panel-title">
-            <h3>Game Design</h3>
-            <div class="panel-meta">מסלול בונוס · 6 פרקים + פרק מיוחד · מצגות מסך מלא</div>
+            <h3>Game Design 1</h3>
+            <div class="panel-meta">מסלול בונוס · חלק 1 · פרקים 1–4 · מצגות מסך מלא</div>
           </div>
           <div class="panel-toggle" aria-hidden="true">+</div>
         </summary>
@@ -3276,6 +3335,21 @@
             </div>
           </article>
 
+        </div>
+      </details>
+
+      <!-- ===== World 11: Game Design 2 (bonus, part 2 · chapters 5-7 + site) ===== -->
+      <details class="world-panel" data-world="11" id="w11">
+        <summary>
+          <div class="panel-num">WORLD 11</div>
+          <div class="panel-title">
+            <h3>Game Design 2</h3>
+            <div class="panel-meta">מסלול בונוס · חלק 2 · פרקים 5–7 + אתר אינטראקטיבי</div>
+          </div>
+          <div class="panel-toggle" aria-hidden="true">+</div>
+        </summary>
+        <div class="session-list">
+
           <article class="session has-thumb">
             <div class="session-head">
               <div class="session-num">5</div>
@@ -3320,6 +3394,27 @@
 
           <article class="session has-thumb">
             <div class="session-head">
+              <div class="session-num">7</div>
+              <div class="session-title-block">
+                <h4>מאחורי הקלעים של Red Alert 3</h4>
+                <div class="session-tags">
+                  <span class="tag lavender">אסתטיקה</span>
+                  <span class="tag">איטרציות</span>
+                </div>
+              </div>
+            </div>
+            <div class="session-thumb t-mint">
+              <img src="assets/gamedesign/deck7/slide-01.jpg" alt="פרק 7 — מאחורי הקלעים של Red Alert 3" loading="lazy">
+              <div class="credit">© Lemons Gaming</div>
+            </div>
+            <p class="session-desc">איך אסתטיקה ואיטרציות הופכות רעיונות פרועים לחוויות בלתי נשכחות — מאחורי הקלעים של Red Alert 3.</p>
+            <div class="session-links">
+              <a class="link-chip slides" href="present.html?deck=7" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-slides"/></svg>פתח מצגת</a>
+            </div>
+          </article>
+
+          <article class="session has-thumb">
+            <div class="session-head">
               <div class="session-num">★</div>
               <div class="session-title-block">
                 <h4>עיצוב משחקי פתרון בעיות</h4>
@@ -3337,6 +3432,63 @@
             <p class="session-desc">מרכז כלים אינטראקטיבי לעיצוב פאזלים, מבוסס על Game Maker's Toolkit: מכניקה, קאץ', גילוי, הנחה, הצגה ועקומת קושי.</p>
             <div class="session-links">
               <a class="link-chip link" href="gamedesign-puzzle.html" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-link"/></svg>כניסה לאתר</a>
+            </div>
+          </article>
+
+        </div>
+      </details>
+
+      <!-- ===== World 12: Game Design 3 (bonus, part 3 · chapters 8-9) ===== -->
+      <details class="world-panel" data-world="12" id="w12">
+        <summary>
+          <div class="panel-num">WORLD 12</div>
+          <div class="panel-title">
+            <h3>Game Design 3</h3>
+            <div class="panel-meta">מסלול בונוס · חלק 3 · פרקים 8–9 · מצגות מסך מלא</div>
+          </div>
+          <div class="panel-toggle" aria-hidden="true">+</div>
+        </summary>
+        <div class="session-list">
+
+          <article class="session has-thumb">
+            <div class="session-head">
+              <div class="session-num">8</div>
+              <div class="session-title-block">
+                <h4>עיצוב מבעד לצללים — Limbo</h4>
+                <div class="session-tags">
+                  <span class="tag lavender">פסיכולוגיית שחקן</span>
+                  <span class="tag sky">Limbo</span>
+                </div>
+              </div>
+            </div>
+            <div class="session-thumb t-yellow">
+              <img src="assets/gamedesign/deck8/slide-01.jpg" alt="פרק 8 — עיצוב מבעד לצללים" loading="lazy">
+              <div class="credit">© Lemons Gaming</div>
+            </div>
+            <p class="session-desc">מה משחק הקלאסיקה Limbo מלמד אותנו על הפסיכולוגיה של השחקן ועל עיצוב משחקים.</p>
+            <div class="session-links">
+              <a class="link-chip slides" href="present.html?deck=8" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-slides"/></svg>פתח מצגת</a>
+            </div>
+          </article>
+
+          <article class="session has-thumb">
+            <div class="session-head">
+              <div class="session-num">9</div>
+              <div class="session-title-block">
+                <h4>האשליה המושלמת — The Last of Us</h4>
+                <div class="session-tags">
+                  <span class="tag lavender">אימרסיה</span>
+                  <span class="tag">פסיכולוגיית שחקן</span>
+                </div>
+              </div>
+            </div>
+            <div class="session-thumb t-pink">
+              <img src="assets/gamedesign/deck9/slide-01.jpg" alt="פרק 9 — האשליה המושלמת" loading="lazy">
+              <div class="credit">© Lemons Gaming</div>
+            </div>
+            <p class="session-desc">איך The Last of Us משחק לכם במוח — יומן הישרדות למעצבי משחקים. על בסיס "אמנות עיצוב המשחקים" לג'סי של.</p>
+            <div class="session-links">
+              <a class="link-chip slides" href="present.html?deck=9" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-slides"/></svg>פתח מצגת</a>
             </div>
           </article>
 
@@ -3482,7 +3634,7 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <h3>★ גיימינג בחינוך · שלומי נויפלד</h3>
-        <p>לימוד מיומנויות דרך משחקי מחשב · קורס שנתי לחטיבת ביניים (ז–ט) · 43 מפגשים ב-10 עולמות.</p>
+        <p>לימוד מיומנויות דרך משחקי מחשב · קורס שנתי לחטיבת ביניים (ז–ט) · 43 מפגשים ב-12 עולמות.</p>
       </div>
 
       <div class="footer-col">
