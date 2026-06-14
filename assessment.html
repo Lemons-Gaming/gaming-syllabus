@@ -3,7 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>הערכת מומחיות · גיימינג בחינוך</title>
+<title>שאלון סיכום · גיימינג בחינוך</title>
+
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="שאלון סיכום · גיימינג בחינוך">
+<meta property="og:description" content="שאלון סיכום הקורס — 36 שאלות בשישה תחומים, עם דוח אישי בסוף.">
+<meta property="og:image" content="https://lemons-gaming.github.io/gaming-syllabus/assets/assessment-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://lemons-gaming.github.io/gaming-syllabus/assessment.html">
+<meta property="og:locale" content="he_IL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="שאלון סיכום · גיימינג בחינוך">
+<meta name="twitter:description" content="שאלון סיכום הקורס — 36 שאלות בשישה תחומים, עם דוח אישי בסוף.">
+<meta name="twitter:image" content="https://lemons-gaming.github.io/gaming-syllabus/assets/assessment-og.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;700&family=Rubik:wght@400;500;700;800;900&family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
@@ -712,8 +732,8 @@ const QUESTIONS = [
  },
  {
   "d": 5,
-  "img": "gamedesign/deck6/slide-09.jpg",
-  "cap": "עיצוב שלבים · איך בונים אגדה © Lemons Gaming",
+  "img": "gamedesign/leveldesign/slide-02.jpg",
+  "cap": "עקומת הקושי · Level Design © Lemons Gaming",
   "q": "איך בנויה עקומת קושי טובה ברמה (Level) מעוצבת היטב?",
   "o": [
    "לימוד בטוח, הסלמה הדרגתית, ושיא שמחבר הכל",
@@ -754,7 +774,16 @@ let submitted = false;
 let busy = false;
 let serial = "";
 const results = new Array(total).fill(null); // {choice, correct, exp, right} — canonical indices
-const order = QUESTIONS.map(() => [0,1,2,3].sort(() => Math.random() - .5)); // display→canonical
+// ערבוב סדר התשובות לכל שאלה (Fisher-Yates — חלוקה אחידה, בלי הטיה לתשובה הראשונה)
+function shuffled4(){
+  const a = [0,1,2,3];
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+const order = QUESTIONS.map(shuffled4); // display→canonical, מעורבב מחדש בכל טעינה
 
 const stage   = document.getElementById("stage");
 const counter = document.getElementById("counter");
@@ -793,7 +822,7 @@ function swap(html){
 function renderIntro(){
   const ready = !!API_URL;
   swap(`
-    <div class="eyebrow"><span class="chip">הערכה מסכמת · תשפ"ו</span><span class="world">PLAYER ASSESSMENT</span></div>
+    <div class="eyebrow"><span class="chip">הערכה מסכמת</span><span class="world">PLAYER ASSESSMENT</span></div>
     <h1 class="display">עד כמה אתם באמת<br><mark>מומחים בגיימינג?</mark></h1>
     <p class="lede">שלושים ושש שאלות בשישה תחומים — מז'אנרים ומכניקות, דרך אסטרטגיה, רד-סטון ו-Python במיינקראפט, ועד פסיכולוגיית השחקן ועיצוב משחקים. אחרי כל שאלה תקבלו הסבר קצר, ובסוף — דוח הערכה אישי עם פירוט לפי תחומים.</p>
     <div class="kv">
@@ -1035,7 +1064,7 @@ function renderReport(){
   `);
   document.getElementById("again").onclick = () => {
     results.fill(null); idx = -1; submitted = false; startedAt = 0;
-    order.forEach(p => p.sort(() => Math.random() - .5));
+    order.forEach((p, i) => order[i] = shuffled4());
     renderIntro();
   };
   sendReport();
