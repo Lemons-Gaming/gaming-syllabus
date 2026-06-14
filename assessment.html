@@ -158,6 +158,9 @@ figure.shot figcaption{
   box-shadow:3px 3px 0 var(--ink);
 }
 .field input:focus{outline:none;box-shadow:3px 3px 0 var(--sky)}
+.field-row{display:flex;gap:16px;flex-wrap:wrap}
+.field-row .field{flex:1;min-width:160px}
+.field-row .field input{max-width:none}
 
 /* ---------- report ---------- */
 .report-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:var(--grotesk);font-weight:500;font-size:11.5px;letter-spacing:.12em;color:var(--muted);margin:14px 0 26px}
@@ -744,6 +747,8 @@ const API_TOKEN = "2f8ea392126249cd2144433b";
 const total = QUESTIONS.length;
 let idx = -1;                       // -1 = intro
 let studentName = "";
+let studentSchool = "";
+let studentClass = "";
 let startedAt = 0;
 let submitted = false;
 let busy = false;
@@ -801,21 +806,41 @@ function renderIntro(){
       <label for="nm">שם השחקן/ית</label>
       <input id="nm" type="text" autocomplete="off" value="${esc(studentName)}">
     </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="sch">בית ספר</label>
+        <input id="sch" type="text" autocomplete="off" value="${esc(studentSchool)}">
+      </div>
+      <div class="field">
+        <label for="cls">כיתה</label>
+        <input id="cls" type="text" autocomplete="off" value="${esc(studentClass)}">
+      </div>
+    </div>
     <div class="nav">
       <span></span>
-      <button class="btn" id="start" ${ready ? "" : "disabled"}><span dir="ltr">PRESS START</span> · התחלה</button>
+      <button class="btn" id="start" disabled><span dir="ltr">PRESS START</span> · התחלה</button>
     </div>
     <p class="hint">ניווט במקלדת: 1–4 לבחירת תשובה · Enter להמשך</p>
   `);
-  document.getElementById("start").onclick = () => {
-    studentName = document.getElementById("nm").value.trim();
+  const nm = document.getElementById("nm"), sch = document.getElementById("sch"), cls = document.getElementById("cls");
+  const startBtn = document.getElementById("start");
+  const validate = () => {
+    startBtn.disabled = !(ready && nm.value.trim() && sch.value.trim() && cls.value.trim());
+  };
+  [nm, sch, cls].forEach(el => el.addEventListener("input", validate));
+  validate();
+  startBtn.onclick = () => {
+    if (startBtn.disabled) return;
+    studentName = nm.value.trim();
+    studentSchool = sch.value.trim();
+    studentClass = cls.value.trim();
     if (!startedAt){
       startedAt = Date.now();
       serial = "LG-" + new Date().getFullYear() + "-" + String(Math.floor(1000 + Math.random()*9000));
     }
     idx = 0; renderQ();
   };
-  document.getElementById("nm").focus();
+  nm.focus();
   if (ready) api({ action: "ping" }).catch(()=>{}); // warm up the server
 }
 
@@ -920,6 +945,8 @@ async function sendReport(){
     await api({
       action: "submit",
       name: studentName || "ללא שם",
+      school: studentSchool || "—",
+      cls: studentClass || "—",
       serial,
       answers: results.map(r => r.choice),
       attempt,
@@ -968,7 +995,7 @@ function renderReport(){
     </div>
     <h1 class="display" style="font-size:clamp(26px,4.5vw,38px)">${esc(studentName || "תלמיד/ת הקורס")}</h1>
     <div class="report-meta">
-      <span>${today}</span><span>גיימינג בחינוך · 43 מפגשים · 12 עולמות</span><span>${serial}</span><span id="sendnote"></span>
+      <span>${today}</span>${(studentSchool||studentClass) ? `<span>${esc([studentSchool, studentClass].filter(Boolean).join(" · "))}</span>` : ""}<span>${serial}</span><span id="sendnote"></span>
     </div>
     <div class="verdict">
       <div class="lvl-en">${lvl.en}</div>
@@ -1017,7 +1044,7 @@ function renderReport(){
 // ---------- keyboard ----------
 document.addEventListener("keydown", e => {
   if (idx < 0 || idx >= total) {
-    if (e.key === "Enter" && idx < 0 && document.activeElement?.id === "nm")
+    if (e.key === "Enter" && idx < 0 && ["nm","sch","cls"].includes(document.activeElement?.id))
       document.getElementById("start")?.click();
     return;
   }
