@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הערכת מומחיות · גיימינג בחינוך</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;700&family=Rubik:wght@400;500;700;800;900&family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#fdf4e3;
+  --cream-shade:#f5ead0;
+  --ink:#1a1a1a;
+  --pink:#ff4f93;
+  --yellow:#ffd23f;
+  --mint:#6ee7b7;
+  --orange:#fb923c;
+  --sky:#38bdf8;
+  --muted:#6d675c;
+  --mint-tint:#eafaf2;
+  --pink-tint:#ffeaf2;
+  --rubik:'Rubik','Heebo',system-ui,sans-serif;
+  --heebo:'Heebo','Rubik',sans-serif;
+  --grotesk:'Space Grotesk',sans-serif;
+  --bungee:'Bungee','Rubik',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:var(--cream);
+  background-image:radial-gradient(circle at 1px 1px, rgba(26,26,26,.07) 1.1px, transparent 1.1px);
+  background-size:22px 22px;
+  color:var(--ink);
+  font-family:var(--heebo);
+  font-size:16px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.frame{min-height:100vh;display:flex;flex-direction:column}
+
+/* ---------- masthead ---------- */
+.masthead{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px clamp(18px,5vw,52px);
+  border-bottom:2.5px solid var(--ink);
+  background:var(--cream);
+}
+.brand{display:flex;align-items:baseline;gap:12px}
+.brand .en{font-family:var(--bungee);font-size:13px;letter-spacing:.06em}
+.brand .he{font-family:var(--rubik);font-weight:700;font-size:13.5px;color:var(--muted)}
+.counter{font-family:var(--grotesk);font-weight:700;font-size:13px;letter-spacing:.14em}
+.counter b{background:var(--yellow);border:2px solid var(--ink);border-radius:8px;padding:2px 10px;margin-inline-end:8px;font-weight:700}
+.progress{height:10px;border-bottom:2.5px solid var(--ink);background:var(--cream-shade);position:relative;overflow:hidden}
+.progress span{
+  position:absolute;top:0;right:0;height:100%;width:0%;
+  background:repeating-linear-gradient(-45deg,var(--yellow) 0 10px,#f4c321 10px 20px);
+  border-left:2.5px solid var(--ink);
+  transition:width .45s cubic-bezier(.4,0,.2,1);
+}
+
+/* ---------- stage ---------- */
+main{flex:1;display:flex;justify-content:center;padding:clamp(30px,6vh,72px) 18px 70px}
+.screen{width:100%;max-width:720px;animation:rise .4s cubic-bezier(.22,.8,.3,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{opacity:0;transform:translateY(10px) scale(.98)}100%{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.screen,.fb{animation:none!important}.progress span{transition:none}}
+
+.eyebrow{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:24px;flex-wrap:wrap}
+.chip{
+  display:inline-block;background:#fff;border:2px solid var(--ink);border-radius:100px;
+  padding:5px 16px;font-family:var(--rubik);font-weight:700;font-size:13px;
+  box-shadow:3px 3px 0 var(--ink);
+}
+.world{font-family:var(--bungee);font-size:12px;letter-spacing:.1em;color:var(--muted)}
+h1.display{font-family:var(--rubik);font-weight:900;font-size:clamp(32px,6vw,50px);line-height:1.2;letter-spacing:-.01em}
+h1.display mark{background:linear-gradient(transparent 58%, var(--yellow) 58%);padding:0 2px}
+h2.qtext{font-family:var(--rubik);font-weight:800;font-size:clamp(21px,3.2vw,27px);line-height:1.5;margin-bottom:24px}
+.lede{color:var(--muted);font-size:17px;max-width:58ch;margin:20px 0 30px}
+
+/* ---------- figure ---------- */
+figure.shot{margin:0 0 26px;background:#fff;border:3px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--yellow);overflow:hidden}
+figure.shot img{display:block;width:100%;height:auto;max-height:320px;object-fit:cover}
+figure.shot figcaption{
+  font-family:var(--grotesk);font-weight:500;font-size:11px;letter-spacing:.1em;color:var(--muted);
+  padding:9px 14px;border-top:2px solid var(--ink);display:flex;justify-content:space-between;background:var(--cream);
+}
+
+/* ---------- options ---------- */
+.opts{display:flex;flex-direction:column;gap:12px}
+.opt{
+  display:flex;align-items:flex-start;gap:16px;width:100%;text-align:right;
+  background:#fff;border:2.5px solid var(--ink);border-radius:12px;
+  padding:15px 16px;cursor:pointer;font:inherit;color:var(--ink);
+  box-shadow:3px 3px 0 var(--ink);
+  transition:transform .12s, box-shadow .12s, background .12s;
+}
+.opt:not(:disabled):hover{transform:translate(2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+.opt .key{
+  flex:0 0 auto;width:32px;height:32px;border:2px solid var(--ink);border-radius:9px;
+  display:flex;align-items:center;justify-content:center;background:var(--yellow);
+  font-family:var(--rubik);font-weight:800;font-size:15px;margin-top:2px;
+}
+.opt .txt{font-size:16px;line-height:1.6;padding-top:4px;font-weight:500}
+.opt:disabled{cursor:default}
+.opt.dim{opacity:.45;box-shadow:none;transform:none}
+.opt.right{background:var(--mint-tint);box-shadow:4px 4px 0 var(--mint)}
+.opt.right .key{background:var(--mint)}
+.opt.wrong{background:var(--pink-tint);box-shadow:4px 4px 0 var(--pink)}
+.opt.wrong .key{background:var(--pink);color:#fff}
+.opt:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+
+/* ---------- feedback ---------- */
+.fb{
+  margin-top:22px;border:3px solid var(--ink);border-radius:14px;background:#fff;
+  animation:pop .35s cubic-bezier(.22,.8,.3,1) both;overflow:hidden;
+}
+.fb.good{box-shadow:7px 7px 0 var(--mint)}
+.fb.bad{box-shadow:7px 7px 0 var(--pink)}
+.fb .fb-head{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:2px solid var(--ink)}
+.fb.good .fb-head{background:var(--mint)}
+.fb.bad .fb-head{background:var(--pink);color:#fff}
+.fb .tag{direction:ltr;unicode-bidi:isolate;font-family:var(--bungee);font-size:12px;letter-spacing:.08em;border:2px solid var(--ink);border-radius:8px;padding:3px 10px;background:var(--cream)}
+.fb.bad .tag{color:var(--ink)}
+.fb .fb-title{font-family:var(--rubik);font-weight:800;font-size:17px}
+.fb .fb-body{padding:16px 18px;font-size:15.5px;line-height:1.7}
+.fb .fb-body b{font-weight:700}
+
+/* ---------- nav & buttons ---------- */
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:26px;gap:12px}
+.btn{
+  font-family:var(--rubik);font-weight:800;font-size:15.5px;
+  background:var(--ink);color:var(--cream);border:2.5px solid var(--ink);border-radius:12px;
+  padding:13px 32px;cursor:pointer;box-shadow:4px 4px 0 var(--yellow);
+  transition:transform .12s, box-shadow .12s;
+}
+.btn:not(:disabled):hover{transform:translate(2px,-2px);box-shadow:6px 6px 0 var(--yellow)}
+.btn:disabled{background:var(--cream-shade);color:#b3ac9e;border-color:#b3ac9e;box-shadow:none;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);border:2.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);font-weight:700}
+.btn.ghost:not(:disabled):hover{box-shadow:5px 5px 0 var(--ink)}
+.btn:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.hint{font-family:var(--grotesk);font-size:11.5px;letter-spacing:.08em;color:var(--muted);margin-top:18px}
+
+/* ---------- intro ---------- */
+.kv{display:flex;gap:14px;margin:30px 0;flex-wrap:wrap}
+.kv div{
+  flex:1;min-width:140px;background:#fff;border:2.5px solid var(--ink);border-radius:12px;
+  padding:14px 18px;box-shadow:4px 4px 0 var(--cream-shade);
+}
+.kv div:nth-child(1){box-shadow:4px 4px 0 var(--yellow)}
+.kv div:nth-child(2){box-shadow:4px 4px 0 var(--mint)}
+.kv div:nth-child(3){box-shadow:4px 4px 0 var(--orange)}
+.kv .k{font-family:var(--grotesk);font-weight:700;font-size:10.5px;letter-spacing:.16em;color:var(--muted);display:block}
+.kv .v{font-family:var(--rubik);font-weight:900;font-size:26px}
+.field{margin:6px 0 30px}
+.field label{font-family:var(--rubik);font-weight:700;font-size:13px;display:block;margin-bottom:8px}
+.field input{
+  width:100%;max-width:400px;font-family:var(--rubik);font-weight:700;font-size:19px;color:var(--ink);
+  background:#fff;border:2.5px solid var(--ink);border-radius:12px;padding:11px 16px;
+  box-shadow:3px 3px 0 var(--ink);
+}
+.field input:focus{outline:none;box-shadow:3px 3px 0 var(--sky)}
+
+/* ---------- report ---------- */
+.report-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:var(--grotesk);font-weight:500;font-size:11.5px;letter-spacing:.12em;color:var(--muted);margin:14px 0 26px}
+.verdict{
+  background:#fff;border:3px solid var(--ink);border-radius:16px;padding:30px 28px;
+  box-shadow:9px 9px 0 var(--yellow);margin-bottom:34px;position:relative;overflow:hidden;
+}
+.verdict .lvl-en{font-family:var(--bungee);font-size:12px;letter-spacing:.22em;color:var(--muted);margin-bottom:8px}
+.verdict h2{font-family:var(--rubik);font-weight:900;font-size:clamp(34px,5.5vw,50px);line-height:1.15}
+.verdict .scoreline{font-family:var(--grotesk);font-weight:700;font-size:13px;letter-spacing:.1em;color:var(--muted);margin-top:12px}
+.verdict p{margin-top:16px;max-width:58ch;font-size:16.5px}
+.domhead{font-family:var(--rubik);font-weight:800;font-size:15px;margin:0 0 14px}
+.domrows{display:flex;flex-direction:column;gap:12px;margin-bottom:34px}
+.domrow{
+  display:grid;grid-template-columns:minmax(165px,1.1fr) 2fr auto;gap:18px;align-items:center;
+  background:#fff;border:2.5px solid var(--ink);border-radius:12px;padding:13px 18px;
+  box-shadow:3px 3px 0 var(--ink);
+}
+.domrow .dn{font-family:var(--rubik);font-weight:700;font-size:14.5px;line-height:1.35}
+.domrow .dn small{display:block;font-family:var(--grotesk);font-weight:500;font-size:9.5px;letter-spacing:.12em;color:var(--muted);margin-top:1px}
+.gauge{height:16px;background:var(--cream-shade);border:2px solid var(--ink);border-radius:100px;position:relative;overflow:hidden}
+.gauge i{position:absolute;top:0;right:0;height:100%;background:var(--yellow)}
+.gauge.top i{background:var(--mint)}
+.domrow .dl{font-family:var(--grotesk);font-weight:700;font-size:12px;letter-spacing:.06em;white-space:nowrap}
+.insights{display:flex;flex-direction:column;gap:14px;margin-bottom:34px}
+.insight{
+  display:grid;grid-template-columns:128px 1fr;gap:18px;align-items:start;
+  background:#fff;border:2.5px solid var(--ink);border-radius:12px;padding:16px 18px;
+}
+.insight.a{box-shadow:4px 4px 0 var(--mint)}
+.insight.b{box-shadow:4px 4px 0 var(--orange)}
+.insight .tag{font-family:var(--rubik);font-weight:800;font-size:12.5px;background:var(--cream);border:2px solid var(--ink);border-radius:100px;padding:3px 12px;text-align:center}
+.insight p{font-size:15.5px;max-width:60ch}
+.actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
+
+/* ---------- review ---------- */
+.review{margin-top:4px}
+.review summary{
+  font-family:var(--rubik);font-weight:700;font-size:14px;cursor:pointer;list-style:none;
+  background:#fff;border:2.5px solid var(--ink);border-radius:12px;padding:13px 18px;
+  box-shadow:3px 3px 0 var(--ink);
+}
+.review summary::-webkit-details-marker{display:none}
+.review[open] summary{border-radius:12px 12px 0 0;box-shadow:none}
+.rvlist{border:2.5px solid var(--ink);border-top:none;border-radius:0 0 12px 12px;background:#fff;padding:6px 18px 14px}
+.rv{padding:14px 0;border-bottom:1.5px dashed var(--cream-shade);display:grid;grid-template-columns:32px 1fr;gap:14px}
+.rv:last-child{border-bottom:none}
+.rv .mark{
+  font-family:var(--grotesk);font-weight:700;font-size:13px;width:26px;height:26px;border:2px solid var(--ink);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;margin-top:2px;
+}
+.rv.ok .mark{background:var(--mint)}
+.rv.bad .mark{background:var(--pink);color:#fff}
+.rv .rq{font-family:var(--rubik);font-weight:700;font-size:15px;margin-bottom:4px}
+.rv .ra{font-size:13.5px;color:var(--muted)}
+.rv .ra b{color:var(--ink);font-weight:700}
+
+footer{
+  border-top:2.5px solid var(--ink);
+  padding:14px clamp(18px,5vw,52px);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  font-family:var(--grotesk);font-weight:500;font-size:10.5px;letter-spacing:.16em;color:var(--muted);
+  background:var(--cream);
+}
+
+@media (max-width:580px){
+  .domrow{grid-template-columns:1fr;gap:9px}
+  .insight{grid-template-columns:1fr;gap:8px}
+  .insight .tag{justify-self:start}
+}
+@media print{
+  .masthead,.progress,footer,.actions,.review,.hint{display:none!important}
+  body{background:#fff}
+  main{padding:0}
+  .screen{animation:none}
+  .verdict,.domrow,.insight{box-shadow:none}
+}
+
+/* ---------- server check states ---------- */
+.opt.checking{background:var(--cream-shade);box-shadow:none;transform:none}
+.opt.checking .key{animation:spin 1s linear infinite;background:var(--sky)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.neterr{
+  background:var(--pink-tint);border:2.5px solid var(--ink);border-radius:12px;
+  box-shadow:4px 4px 0 var(--pink);padding:13px 18px;margin:18px 0;
+  font-family:var(--rubik);font-weight:700;font-size:14.5px;
+}
+.sendnote{font-family:var(--grotesk);font-weight:700}
+.sendnote.good{color:#0c8f5f}
+.sendnote.bad{color:var(--pink)}
+.linkbtn{background:none;border:none;font:inherit;color:inherit;text-decoration:underline;cursor:pointer;padding:0}
+</style>
+</head>
+<body>
+<div class="frame">
+  <header class="masthead">
+    <div class="brand"><span class="en">LEMONS GAMING</span><span class="he">· הערכת מומחיות</span></div>
+    <div class="counter" id="counter"></div>
+  </header>
+  <div class="progress"><span id="bar"></span></div>
+  <main><div class="screen" id="stage"></div></main>
+  <footer>
+    <span>גיימינג בחינוך · קורס שנתי · 43 מפגשים · 12 עולמות</span>
+    <span>PLAYER ASSESSMENT v2.0</span>
+  </footer>
+</div>
+<script>
+const DOMAINS = [
+  {id:"A", he:"סעיף א", name:"ז'אנרים ומכניקות", en:"GENRES & MECHANICS",
+   praise:"מזהה ז'אנרים ומפרק משחקים למכניקות הליבה שלהם — מבט של מבקר מקצועי.",
+   tip:"שווה לחזור לעולמות 1 ו-5: בחרו משחק מוכר ונסו לנסח במשפט אחד את מכניקת הליבה שלו."},
+  {id:"B", he:"סעיף ב", name:"פתרון בעיות ואסטרטגיה", en:"PROBLEM SOLVING & STRATEGY",
+   praise:"ניגש לבעיות בשיטתיות: מנתח, בוחר אסטרטגיה — ויודע להחליף אותה כשהיא לא עובדת.",
+   tip:"חזרו ל-Prickle ול-Baba Is You ופתרו שלב אחד בשתי דרכים שונות. הגמישות היא השריר."},
+  {id:"C", he:"סעיף ג", name:"אוריינות פיננסית", en:"FINANCIAL LITERACY",
+   praise:"שולט במושגי רווח, מלאי, ריבית דריבית ופיזור סיכונים — חשיבה כלכלית של ממש.",
+   tip:"סיבוב נוסף במוכר הלימונדה: נהלו יומן החלטות קצר ובדקו איזו החלטה הניבה את הרווח הגדול ביותר."},
+  {id:"D", he:"סעיף ד", name:"מיינקראפט · הנדסה ותכנות", en:"MINECRAFT · ENGINEERING & CODE",
+   praise:"עובר בחופשיות בין בנייה, הנדסת רד-סטון וקוד — מהבלוק הראשון ועד Python.",
+   tip:"פתחו עולם חדש: בנו מנגנון רד-סטון אחד, ואז שחזרו אותו בקוד ב-MakeCode."},
+  {id:"E", he:"סעיף ה", name:"עבודת צוות ומיומנויות שחקן", en:"TEAMWORK & PLAYER SKILLS",
+   praise:"שחקן חכם וחבר צוות חזק: תקשורת, תצפית וקבלת החלטות גם תחת לחץ.",
+   tip:"סיבוב נוסף בבן האש ובת המים — והפעם בלי לדבר בכלל, רק בתיאום מראש. תרגיל תקשורת מצוין."},
+  {id:"F", he:"סעיף ו", name:"עיצוב משחקים", en:"GAME DESIGN",
+   praise:"חושב כמו מעצב: רואה את החוויה, הרביעייה היסודית ופסיכולוגיית השחקן שמאחורי כל משחק.",
+   tip:"נתחו משחק אהוב דרך הרביעייה היסודית — מכניקה, סיפור, אסתטיקה, טכנולוגיה — כמו במסלול עיצוב המשחקים."},
+];
+
+const LEVELS = [
+  {min:0,   he:"מתחיל",  en:"NOVICE",
+   text:"זו נקודת פתיחה — והמסע בעיצומו. מומלץ לחזור לעולמות המרכזיים ולשחק שוב: במשחקים, ההבנה נבנית דרך הידיים."},
+  {min:50,  he:"מתפתח", en:"DEVELOPING",
+   text:"הבנה טובה של יסודות הקורס, לצד פערים נקודתיים. עם חיזוק ממוקד בתחומים המסומנים למטה, הקפיצה לרמה הבאה קרובה."},
+  {min:70,  he:"מיומן",  en:"PROFICIENT",
+   text:"שליטה עצמאית ויציבה ברוב תחומי הקורס. הבסיס מוצק — נותר ללטש תחומים בודדים בדרך למצוינות."},
+  {min:87.5,he:"מצטיין", en:"DISTINGUISHED",
+   text:"שליטה יוצאת דופן בחומרי הקורס. התשובות מעידות על הבנה עמוקה של מכניקות, אסטרטגיה ועיצוב — רמה של מוביל ידע כיתתי."},
+];
+
+// השאלות בלבד — סדר התשובות עורבב, והתשובות הנכונות וההסברים נמצאים בשרת בלבד.
+const QUESTIONS = [
+ {
+  "d": 0,
+  "img": "games/super-mario.png",
+  "cap": "Super Mario © Nintendo",
+  "q": "מה מגדיר את ז'אנר הפלטפורמר יותר מכל מאפיין אחר?",
+  "o": [
+   "חקירה חופשית של עולם פתוח ובחירת סדר המשימות",
+   "איסוף פריטים נסתרים ושדרוג יכולות הדמות לאורך המשחק",
+   "קרבות מתוזמנים מול אויבים שהולכים ומתחזקים",
+   "שליטה מדויקת בתנועה ובקפיצה בין משטחים ומכשולים"
+  ]
+ },
+ {
+  "d": 0,
+  "img": "games/tetris-wiki.png",
+  "cap": "Tetris © The Tetris Company",
+  "q": "בטטריס הקלאסי אין מסך ניצחון — המשחק רק מאיץ עד שהשחקן מפסיד. איזה דפוס עיצובי זה?",
+  "o": [
+   "מוות פתאומי (Sudden Death) שמעניש על כל טעות יחידה",
+   "קצב אקראי שנועד למנוע שינון של תבניות קבועות",
+   "משחק אינסופי מבוסס ניקוד, שבו המטרה היא שבירת שיא",
+   "מכניקת התשה שבה משאבי השחקן מתכלים בהדרגה"
+  ]
+ },
+ {
+  "d": 0,
+  "img": "games/2048.jpg",
+  "cap": "2048 © Gabriele Cirulli",
+  "q": "מהי מכניקת הליבה של 2048, שממנה נובע כל המשחק?",
+  "o": [
+   "סידור האריחים ברצף עולה מהפינה אל המרכז",
+   "התאמת שלשות של אריחים סמוכים בעלי אותו ערך מספרי",
+   "מיזוג אריחים בעלי ערך זהה לאריח אחד בערך כפול",
+   "פינוי שורות מלאות מהלוח לפני שייגמר המקום"
+  ]
+ },
+ {
+  "d": 0,
+  "img": "games/loom.png",
+  "cap": "Loom (האורגים) © Lucasfilm Games",
+  "q": "במשחקי קווסט כמו \"האורגים\", על מה מבוססת ההתקדמות בעיקר?",
+  "o": [
+   "פתרון חידות והבנת הסיפור, בקצב איטי וללא לחץ",
+   "צבירת נקודות ניסיון ושדרוג הדמות אחרי כל אתגר",
+   "ניהול נכון של חיים, ציוד ומשאבים מתכלים",
+   "רפלקסים ותזמון מדויק של קפיצות והתחמקויות"
+  ]
+ },
+ {
+  "d": 0,
+  "img": "games/shadows.gif",
+  "cap": "צללים · Shadows",
+  "q": "במשחק \"צללים\" לא מזיזים את הדמות — מזיזים את התפאורה כדי שהצל שלה ייצור דרך. איזו מיומנות חשיבה זה מאמן?",
+  "o": [
+   "אומדן — להעריך מרחקים וגבהים בלי למדוד",
+   "הפשטה — לפתור את הבעיה דרך ייצוג אחר שלה",
+   "קואורדינציה — לתאם בין שני ערוצי שליטה במקביל",
+   "זיכרון חזותי — לשנן את מבנה המסלול מראש"
+  ]
+ },
+ {
+  "d": 0,
+  "img": "games/runitback.png",
+  "cap": "Run It Back © Fireflies Jar",
+  "q": "מה מייחד \"משחק מסר\" אמיתי לעומת משחק רגיל עם נושא רציני?",
+  "o": [
+   "הוא נגמר במסך הסבר שמסכם את הטענה",
+   "הוא מוותר על ניקוד ותחרות לטובת אווירה",
+   "העלילה שלו מבוססת על אירועים היסטוריים אמיתיים",
+   "המכניקה עצמה בנויה כך שתעביר את הרעיון"
+  ]
+ },
+ {
+  "d": 0,
+  "img": "games/falafel-shot.jpg",
+  "cap": "מלך הפלאפל",
+  "q": "כשמשווים משחק למקור ההשראה שלו — מה מבקר משחקים בודק קודם כל?",
+  "o": [
+   "את תאריכי היציאה, כדי לקבוע מי השפיע על מי",
+   "את לולאת המשחק: מה השחקן עושה שוב ושוב, ולמה",
+   "את הסגנון הוויזואלי ואת בחירת הצבעים והדמויות",
+   "את הביקורות והציונים שכל אחד מהם קיבל"
+  ]
+ },
+ {
+  "d": 1,
+  "img": "games/prickle.png",
+  "cap": "Prickle © Sunbird Games",
+  "q": "נתקעתם בשלב ב-Prickle אחרי כמה ניסיונות כושלים. מהי הגישה האסטרטגית הנכונה?",
+  "o": [
+   "לחזור לשלבים קודמים ולצבור ביטחון לפני ניסיון נוסף",
+   "לעבור על כל הצירופים האפשריים אחד-אחד, לפי הסדר",
+   "להתמיד באותה דרך — עם תרגול, הביצוע ישתפר",
+   "לנתח מה בדיוק נכשל בכל ניסיון, ולגבש דרך שונה"
+  ]
+ },
+ {
+  "d": 1,
+  "img": "games/mini-metro-lesson.png",
+  "cap": "Mini Metro © Dinosaur Polo Club",
+  "q": "ב-Mini Metro התחנות מתחילות להתמלא ולהבהב. מהו עיקרון האופטימיזציה הנכון?",
+  "o": [
+   "לשמור קרונות וקטרים בצד למשבר של סוף המשחק",
+   "להוסיף מיד קו רכבת חדש לכל תחנה שמתחילה להבהב",
+   "להאריך את הקו המרכזי עד שיגיע לכל התחנות",
+   "לארגן מחדש את הרשת כך שתצמצם עומסים והעברות"
+  ]
+ },
+ {
+  "d": 1,
+  "img": "games/baba-is-you.png",
+  "cap": "Baba Is You © Hempuli",
+  "q": "מהו הרעיון שבזכותו Baba Is You נחשב לפריצת דרך בחשיבה מיחשובית?",
+  "o": [
+   "החוקים הם אובייקטים בתוך השלב, ואפשר לשנות אותם",
+   "השחקן שולט בכמה דמויות שונות בו-זמנית",
+   "השלבים נבנים מחדש בכל ניסיון, ומונעים שינון",
+   "לכל שלב יש תמיד כמה פתרונות שונים ושקולים זה לזה"
+  ]
+ },
+ {
+  "d": 1,
+  "img": "games/toy-defense-shot.jpg",
+  "cap": "Toy Defense © CoolMathGames",
+  "q": "ב-Tower Defense מתקרב גל של אויבים מהירים במיוחד. מהו השיקול הטקטי הנכון?",
+  "o": [
+   "לפזר את המגדלים במרווחים שווים לאורך כל המסלול",
+   "להציב האטה לפני מגדלי הנזק, בצוואר-הבקבוק של המסלול",
+   "לתעדף מגדלים ארוכי-טווח שפותחים באש מוקדם ככל האפשר",
+   "להחליף את המגדלים הקיימים במגדלים בעלי קצב ירי גבוה יותר"
+  ]
+ },
+ {
+  "d": 1,
+  "img": "games/red-alert-2.jpg",
+  "cap": "Command & Conquer: Red Alert 2 © EA / Westwood",
+  "q": "במשחקי אסטרטגיה בזמן אמת — מה ה-Trade-off של השקעה מוקדמת בכלכלה?",
+  "o": [
+   "הגנה איתנה מההתחלה, במחיר מחסור במשאבים בהמשך",
+   "יתרון מצטבר בכל שלבי המשחק, כמעט ללא חיסרון של ממש",
+   "שליטה מוקדמת בשטח המפה, במחיר האטה בקצב המחקר",
+   "עוצמה גדולה יותר בהמשך, במחיר חשיפה להתקפה מוקדמת"
+  ]
+ },
+ {
+  "d": 1,
+  "img": "games/video-editor.gif",
+  "cap": "Video Editor © nitaymaz",
+  "q": "\"חשיבה מיחשובית\" — מהי המיומנות המרכזית שהמושג מתאר?",
+  "o": [
+   "שליטה במספר שפות תכנות ובמעבר ביניהן",
+   "פירוק בעיה גדולה לצעדים קטנים שניתן לבצע ולבדוק",
+   "תרגום מהיר ומדויק של רעיונות לקוד בשפת תכנות",
+   "היכרות מעמיקה עם חומרת המחשב ורכיביו"
+  ]
+ },
+ {
+  "d": 1,
+  "img": "games/conflict-craft.png",
+  "cap": "Conflict Craft",
+  "q": "שיחקתם בקורס כמה משחקי אסטרטגיה ברצף. מה הערך הלימודי המרכזי של ההשוואה ביניהם?",
+  "o": [
+   "לדרג אותם ולבחור את הטוב ביותר להתמקצעות",
+   "לתרגל הסתגלות מהירה לממשקים, לחוקים ולמצבים חדשים",
+   "לזהות עקרונות שחוזרים בכולם, ולהכליל אותם הלאה",
+   "להבין את ההתפתחות ההיסטורית של הז'אנר"
+  ]
+ },
+ {
+  "d": 2,
+  "img": "games/lemonade-stand.png",
+  "cap": "Lemonade Stand",
+  "q": "בדוכן הלימונדה מכרתם ב-50 שקלים, וההוצאות על לימונים, סוכר וכוסות היו 30 שקלים. מה הרווח?",
+  "o": [
+   "50 שקלים — סך כל המכירות שנכנסו לקופה",
+   "30 שקלים — ההשקעה שחוזרת אליכם ראשונה",
+   "80 שקלים — הסכום הכולל שעבר בעסק היום",
+   "20 שקלים — ההפרש בין ההכנסות להוצאות"
+  ]
+ },
+ {
+  "d": 2,
+  "img": "games/lemonade-stand.png",
+  "cap": "Lemonade Stand",
+  "q": "הכנתם מלאי ל-100 כוסות, ירד גשם ונמכרו רק 20. מה הלקח המרכזי לניהול העסק?",
+  "o": [
+   "לפצות על ההפסד בהעלאת מחירים ביום שאחרי",
+   "להתאים את היקף המלאי לתחזית הביקוש, מראש",
+   "להגדיל את המלאי וליהנות מהנחות כמות בקנייה",
+   "להוזיל את המחיר בימי גשם כדי למשוך קונים"
+  ]
+ },
+ {
+  "d": 2,
+  "img": "games/young-investor.png",
+  "cap": "המשקיעים הצעירים · The Young Investor",
+  "q": "מהי \"ריבית דריבית\", המנגנון שמאחורי משחקי החיסכון שבקורס?",
+  "o": [
+   "ריבית שנצברת גם על הריבית מהתקופות הקודמות",
+   "ריבית שמחושבת מחדש אחרי כל הפקדה נוספת",
+   "ריבית בשיעור כפול שניתנת רק לחיסכון ארוך-טווח",
+   "ריבית משתנה שעולה ויורדת יחד עם מצב השוק"
+  ]
+ },
+ {
+  "d": 2,
+  "img": "games/young-investor.png",
+  "cap": "המשקיעים הצעירים · The Young Investor",
+  "q": "מדוע משקיעים מנוסים מפזרים את ההשקעות בין כמה אפיקים שונים?",
+  "o": [
+   "להגדיל את הסיכוי לפגוע באפיק המנצח של השנה",
+   "להבטיח תשואה קבועה וידועה מראש בכל מצב שוק אפשרי",
+   "להקטין את הסיכון לאבד הכל אם אפיק אחד נופל",
+   "לעמוד בכלל המחייב חלוקה בין סוגי השקעות"
+  ]
+ },
+ {
+  "d": 3,
+  "img": "minecraft/24-building.png",
+  "cap": "Minecraft Education © Mojang / Microsoft",
+  "q": "מה ההבדל המהותי בין מצב יצירה (Creative) למצב הישרדות (Survival) במיינקראפט?",
+  "o": [
+   "ביצירה משחקים רק ביחידים; הישרדות נועדה לקבוצות",
+   "ביצירה העולם מוגבל בגודלו; בהישרדות הוא נמשך לאינסוף",
+   "ביצירה הבנייה חופשית ובטוחה; בהישרדות כל משאב נאסף בעמל",
+   "ביצירה הזמן עומד מלכתחילה; בהישרדות יש מחזור יום ולילה קבוע"
+  ]
+ },
+ {
+  "d": 3,
+  "img": "minecraft/26-survival.png",
+  "cap": "Minecraft Education © Mojang / Microsoft",
+  "q": "הלילה הראשון במצב הישרדות מתקרב. מהו סדר הפעולות הנכון?",
+  "o": [
+   "מיטה ושינה מיד, כדי לדלג על הלילה כולו",
+   "חפירה מהירה למטה, אל עבר העפרות היקרות",
+   "עץ, כלים בסיסיים ומחסה — לפי שרשרת התלות",
+   "חומה מקיפה וגבוהה סביב נקודת ההתחלה, לפני הכל"
+  ]
+ },
+ {
+  "d": 3,
+  "img": "minecraft/29-redstone.png",
+  "cap": "Redstone · Minecraft Education © Mojang / Microsoft",
+  "q": "רד-סטון (Redstone) מכונה \"החשמל של מיינקראפט\". למה הוא מקביל בעולם האמיתי?",
+  "o": [
+   "לרשת תקשורת שמחברת בין מחשבים",
+   "למעגלים חשמליים ולשערים לוגיים",
+   "לדלק שמזין מנועים ומכונות עבודה",
+   "למערכת גלגלי שיניים ורצועות מכניות"
+  ]
+ },
+ {
+  "d": 3,
+  "img": "minecraft/29-redstone.png",
+  "cap": "Redstone · Minecraft Education © Mojang / Microsoft",
+  "q": "בניתם דלת שנפתחת רק כאשר שני לחצנים נלחצים בו-זמנית. איזה שער לוגי מימשתם?",
+  "o": [
+   "שער NAND — הפלט נכבה כששני הקלטים פעילים",
+   "שער AND — הפלט פעיל רק כששני הקלטים פעילים",
+   "שער OR — הפלט פעיל כשלפחות קלט אחד פעיל",
+   "שער XOR — הפלט פעיל רק כשבדיוק קלט אחד פעיל"
+  ]
+ },
+ {
+  "d": 3,
+  "img": "minecraft/30-makecode.png",
+  "cap": "MakeCode for Minecraft © Microsoft",
+  "q": "מדוע תכנות בבלוקים (MakeCode) הוא שלב פתיחה מצוין בדרך לקוד אמיתי?",
+  "o": [
+   "סביבת הבלוקים מאתרת ומתקנת טעויות בלוגיקה",
+   "בבלוקים אפשר לבנות תוכניות מורכבות יותר",
+   "קוד בלוקים רץ ביעילות גבוהה בהרבה מקוד כתוב רגיל",
+   "מתמקדים בלוגיקה, בלי להיתקע על שגיאות תחביר"
+  ]
+ },
+ {
+  "d": 3,
+  "img": "minecraft/31-python.png",
+  "cap": "Python in Minecraft © Microsoft",
+  "q": "הסוכן (Agent) צריך להניח שורה של 10 בלוקים זהים. איזה כלי תכנותי עומד בלב הפתרון?",
+  "o": [
+   "משתנה מונה שסופר כמה בלוקים הונחו עד כה",
+   "פונקציה שמקבלת את סוג הבלוק כפרמטר",
+   "לולאה (Loop) שחוזרת על פעולת ההנחה",
+   "משפט תנאי (If) שבודק אם הקיר הושלם"
+  ]
+ },
+ {
+  "d": 4,
+  "img": "games/fireboy-watergirl.jpg",
+  "cap": "Fireboy & Watergirl © Oslo Albet",
+  "q": "בבן האש ובת המים לכל דמות יכולות וחולשות שונות. מהו המפתח לעבור שלב?",
+  "o": [
+   "יעילות — הדמות הזריזה אוספת את רוב היהלומים",
+   "חלוקת המפה — כל שחקן אחראי לאזור שלו בנפרד",
+   "תקשורת ותזמון — חלק מהמנגנונים דורשים פעולה בו-זמנית",
+   "תורות מסודרים — מתקדמים לסירוגין כדי לא להפריע זה לזה"
+  ]
+ },
+ {
+  "d": 4,
+  "img": "games/geography-puzzle-game.png",
+  "cap": "משחקי גיאוגרפיה · GeoGuessr",
+  "q": "ב-GeoGuessr מנסים לזהות מיקום בעולם מתוך תמונת רחוב בלבד. מה מאפיין שחקן מצטיין?",
+  "o": [
+   "ידע אנציקלופדי בערי בירה, דגלים ואתרים מפורסמים בעולם",
+   "תחושת כיוון מולדת שמכוונת אל היבשת הנכונה",
+   "הסקה שיטתית מרמזים: שפה, צמחייה, תמרורים, צד נסיעה",
+   "זיהוי מקומות מתוך סרטים, סדרות וסרטוני רשת"
+  ]
+ },
+ {
+  "d": 4,
+  "img": "games/break-the-word.png",
+  "cap": "שבור את המילה © Lemons Gaming",
+  "q": "\"שבור את המילה\" משלב משחק רטרו עם תרגול קריאה. מה הופך שילוב כזה למוצלח באמת?",
+  "o": [
+   "הלמידה שזורה במכניקה: חייבים לקרוא כדי לשחק טוב",
+   "נקודות ופרסים נדיבים שמתגמלים מיד כל תשובה נכונה",
+   "הפסקות לימוד קצובות שמשולבות בין השלבים",
+   "עיצוב נוסטלגי שמרכך את ההתנגדות לתרגול"
+  ]
+ },
+ {
+  "d": 4,
+  "img": "games/tap-and-pop.png",
+  "cap": "Tap & Pop · מצא את הצורה",
+  "q": "במשחקי מהירות כמו \"מצא את הצורה\" הזמן אוזל והמסך עמוס. מהי האסטרטגיה המנצחת?",
+  "o": [
+   "סריקה שיטתית, גם אם היא מרגישה איטית יותר",
+   "קצב לחיצות גבוה ככל האפשר — בלחץ זמן, כמות מנצחת דיוק",
+   "מיקוד במרכז המסך, שם המטרות מופיעות לרוב",
+   "פעולה לפי אינסטינקט ראשוני, בלי עצירה לחשיבה"
+  ]
+ },
+ {
+  "d": 5,
+  "img": "gamedesign/deck4/slide-01.jpg",
+  "cap": "הרביעייה היסודית © Lemons Gaming",
+  "q": "מהי \"הרביעייה היסודית\" (Elemental Tetrad) של עיצוב משחקים, לפי ג'סי של?",
+  "o": [
+   "עלילה, דמויות, עולם וקונפליקט",
+   "אתגר, תגמול, התקדמות והפתעה",
+   "חוקים, שחקנים, מטרות, אסטרטגיה ומשוב",
+   "מכניקה, סיפור, אסתטיקה וטכנולוגיה"
+  ]
+ },
+ {
+  "d": 5,
+  "img": "gamedesign/deck2/slide-01.jpg",
+  "cap": "המעצב יוצר חוויה © Lemons Gaming",
+  "q": "לפי ג'סי של, מה מעצב המשחקים מעצב באמת?",
+  "o": [
+   "את האתגר — האיזון בין קושי ליכולת",
+   "את הסיפור — כי הרגש נולד מהנרטיב",
+   "את החוקים — שהרי כל השאר נגזר מהם ממילא",
+   "את החוויה — המשחק הוא רק האמצעי אליה"
+  ]
+ },
+ {
+  "d": 5,
+  "img": "gamedesign/deck5/slide-01.jpg",
+  "cap": "כאוס מתוכנן · Overcooked © Lemons Gaming",
+  "q": "ב-Overcooked שורר כאוס מוחלט במטבח — ובכל זאת מדברים על \"כאוס מתוכנן\". כיצד?",
+  "o": [
+   "הקושי מתכוונן בזמן אמת לפי ביצועי הצוות במטבח",
+   "השלבים מוגרלים מחדש בכל משחק, לרעננות",
+   "אקראיות ההזמנות היא שמייצרת את הלחץ",
+   "המרחב והזמן עוצבו בקפידה כדי להכריח תיאום"
+  ]
+ },
+ {
+  "d": 5,
+  "img": "gamedesign/deck8/slide-01.jpg",
+  "cap": "Limbo · עיצוב מבעד לצללים © Lemons Gaming",
+  "q": "Limbo מפחיד בלי דם, בלי מפלצות מפורטות וכמעט בלי צבע. מהו עיקרון העיצוב המרכזי שלו?",
+  "o": [
+   "מה שלא רואים מפחיד יותר — הדמיון משלים את החסר",
+   "ניגודיות חדה בין שקט ממושך לרעש פתאומי יוצרת מתח",
+   "דמות ילד חסרת אונים שמעצימה את תחושת הסכנה",
+   "קצב איטי ומתמשך שמותח כל רגע של איום"
+  ]
+ },
+ {
+  "d": 5,
+  "img": "gamedesign/deck9/slide-01.jpg",
+  "cap": "The Last of Us · האשליה המושלמת © Lemons Gaming",
+  "q": "מתי נשברת תחושת האימרסיה (Immersion) של שחקן בתוך עולם משחק?",
+  "o": [
+   "כשהעלילה נעצרת לטובת קטעי משחק חופשי",
+   "כשהגרפיקה של המשחק אינה ריאליסטית ומפורטת מספיק",
+   "כשמשהו סודק את עקביות העולם ומזכיר שזה משחק",
+   "כשרמת הקושי עולה אל מעבר ליכולת של השחקן"
+  ]
+ },
+ {
+  "d": 5,
+  "img": "gamedesign/deck10/slide-11.jpg",
+  "cap": "עץ ההחלטות · האנטומיה של הבחירה © Lemons Gaming",
+  "q": "מה הופך בחירה במשחק לבחירה משמעותית באמת?",
+  "o": [
+   "מגוון רחב של אפשרויות בכל צומת החלטה",
+   "השלכות מורגשות ומתמשכות על המשך המשחק",
+   "היעדר תשובה נכונה — דילמה מוסרית אמיתית",
+   "מגבלת זמן שכופה הכרעה מיידית, בלי חרטות"
+  ]
+ },
+ {
+  "d": 5,
+  "img": "gamedesign/deck6/slide-09.jpg",
+  "cap": "עיצוב שלבים · איך בונים אגדה © Lemons Gaming",
+  "q": "איך בנויה עקומת קושי טובה ברמה (Level) מעוצבת היטב?",
+  "o": [
+   "לימוד בטוח, הסלמה הדרגתית, ושיא שמחבר הכל",
+   "גלים מתחלפים של מתח ורגיעה למניעת שחיקה",
+   "פתיחה תובענית שמציבה רף גבוה, והקלה הדרגתית לקראת הסוף",
+   "קושי אחיד ויציב שמכבד את זמנו של השחקן"
+  ]
+ },
+ {
+  "d": 5,
+  "img": "gamedesign/puzzle/cover.jpg",
+  "cap": "עיצוב משחקי פתרון בעיות © Lemons Gaming",
+  "q": "בניתם רמה משלכם ונתתם לחברים לשחק בה (Playtest). מה הפעולה החשובה ביותר ברגע הזה?",
+  "o": [
+   "למדוד זמני סיום ולהשוות בין השחקנים",
+   "לצפות בשקט ולרשום איפה נתקעים או טועים",
+   "להנחות אותם בזמן אמת ולתעד את כל שאלותיהם",
+   "לאסוף מהם ציון הנאה מספרי בסוף המשחק"
+  ]
+ }
+];
+</script>
+<script>
+// ===== חיבור לשרת הבדיקה =====
+// הבדיקה והדוח מתבצעים בשרת (Google Apps Script) — התשובות הנכונות אינן נמצאות בדף הזה.
+// אחרי פריסת ה-Web App מדביקים את הכתובת כאן:
+const API_URL = "https://script.google.com/macros/s/AKfycbzmgmK8D84lfwPcGhnsPT5eg9M35tZ_tGSmKzw4NGKs8wsynM6PQeat4dyYAUfn73RLug/exec";
+const API_TOKEN = "2f8ea392126249cd2144433b";
+
+// ---------- state ----------
+const total = QUESTIONS.length;
+let idx = -1;                       // -1 = intro
+let studentName = "";
+let startedAt = 0;
+let submitted = false;
+let busy = false;
+let serial = "";
+const results = new Array(total).fill(null); // {choice, correct, exp, right} — canonical indices
+const order = QUESTIONS.map(() => [0,1,2,3].sort(() => Math.random() - .5)); // display→canonical
+
+const stage   = document.getElementById("stage");
+const counter = document.getElementById("counter");
+const bar     = document.getElementById("bar");
+const HEB     = ["א","ב","ג","ד"];
+const GOOD_T  = ["תשובה מדויקת", "בדיוק כך", "יפה מאוד", "נכון לגמרי"];
+const BAD_T   = ["לא מדויק הפעם", "כמעט", "לא בדיוק"];
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+
+async function api(payload){
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" }, // simple request — no CORS preflight
+    body: JSON.stringify(Object.assign({ token: API_TOKEN }, payload))
+  });
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  const data = await res.json();
+  if (!data.ok) throw new Error(data.error || "server error");
+  return data;
+}
+
+function setChrome(){
+  if (idx < 0){ counter.innerHTML = ""; bar.style.width = "0%"; }
+  else if (idx >= total){ counter.innerHTML = "<b>REPORT</b> דוח הערכה"; bar.style.width = "100%"; }
+  else {
+    counter.innerHTML = "<b>LEVEL</b> " + String(idx+1).padStart(2,"0") + " / " + total;
+    bar.style.width = ((idx + (results[idx] ? 1 : 0)) / total * 100) + "%";
+  }
+}
+function swap(html){
+  stage.style.animation = "none"; void stage.offsetWidth; stage.style.animation = "";
+  stage.innerHTML = html; setChrome(); window.scrollTo({top:0});
+}
+
+// ---------- intro ----------
+function renderIntro(){
+  const ready = !!API_URL;
+  swap(`
+    <div class="eyebrow"><span class="chip">הערכה מסכמת · תשפ"ו</span><span class="world">PLAYER ASSESSMENT</span></div>
+    <h1 class="display">עד כמה אתם באמת<br><mark>מומחים בגיימינג?</mark></h1>
+    <p class="lede">שלושים ושש שאלות בשישה תחומים — מז'אנרים ומכניקות, דרך אסטרטגיה, רד-סטון ו-Python במיינקראפט, ועד פסיכולוגיית השחקן ועיצוב משחקים. אחרי כל שאלה תקבלו הסבר קצר, ובסוף — דוח הערכה אישי עם פירוט לפי תחומים.</p>
+    <div class="kv">
+      <div><span class="k">LEVELS</span><span class="v">36</span></div>
+      <div><span class="k">WORLDS</span><span class="v">6</span></div>
+      <div><span class="k">MINUTES</span><span class="v">15~</span></div>
+    </div>
+    ${ready ? "" : `<div class="neterr">השאלון עדיין לא חובר לשרת הבדיקה — פנו למורה.</div>`}
+    <div class="field">
+      <label for="nm">שם השחקן/ית</label>
+      <input id="nm" type="text" autocomplete="off" value="${esc(studentName)}">
+    </div>
+    <div class="nav">
+      <span></span>
+      <button class="btn" id="start" ${ready ? "" : "disabled"}><span dir="ltr">PRESS START</span> · התחלה</button>
+    </div>
+    <p class="hint">ניווט במקלדת: 1–4 לבחירת תשובה · Enter להמשך</p>
+  `);
+  document.getElementById("start").onclick = () => {
+    studentName = document.getElementById("nm").value.trim();
+    if (!startedAt){
+      startedAt = Date.now();
+      serial = "LG-" + new Date().getFullYear() + "-" + String(Math.floor(1000 + Math.random()*9000));
+    }
+    idx = 0; renderQ();
+  };
+  document.getElementById("nm").focus();
+  if (ready) api({ action: "ping" }).catch(()=>{}); // warm up the server
+}
+
+// ---------- question ----------
+function renderQ(){
+  const q = QUESTIONS[idx], dm = DOMAINS[q.d], perm = order[idx];
+  const answered = results[idx] !== null;
+  const fig = q.img ? `
+    <figure class="shot">
+      <img src="assets/${q.img}" alt="" loading="lazy">
+      <figcaption><span>${esc(q.cap || "")}</span><span>EXHIBIT ${String(idx+1).padStart(2,"0")}</span></figcaption>
+    </figure>` : "";
+  swap(`
+    <div class="eyebrow">
+      <span class="chip">${dm.he} · ${esc(dm.name)}</span>
+      <span class="world">WORLD ${String(q.d+1).padStart(2,"0")} · ${dm.en}</span>
+    </div>
+    <h2 class="qtext">${esc(q.q)}</h2>
+    ${fig}
+    <div class="opts" role="group">
+      ${perm.map((src,i)=>`
+        <button class="opt" data-i="${i}">
+          <span class="key">${HEB[i]}</span>
+          <span class="txt">${esc(q.o[src])}</span>
+        </button>`).join("")}
+    </div>
+    <div id="fbslot"></div>
+    <div class="nav">
+      <button class="btn ghost" id="back">${idx===0 ? "לעמוד הפתיחה" : "השאלה הקודמת"}</button>
+      <button class="btn" id="next" ${answered ? "" : "disabled"}>${idx===total-1 ? "סיום וקבלת הדוח" : "המשך"}</button>
+    </div>
+    <p class="hint">1–4 לבחירה · Enter להמשך</p>
+  `);
+  stage.querySelectorAll(".opt").forEach(b => b.onclick = () => choose(+b.dataset.i));
+  document.getElementById("next").onclick = () => { idx++; idx >= total ? renderReport() : renderQ(); };
+  document.getElementById("back").onclick = () => { idx--; idx < 0 ? renderIntro() : renderQ(); };
+  if (answered) lockAndFeedback(true);
+}
+
+async function choose(displayI){
+  if (results[idx] !== null || busy) return;
+  busy = true;
+  const opts = stage.querySelectorAll(".opt");
+  opts.forEach(o => { o.disabled = true; if (+o.dataset.i === displayI) o.classList.add("checking"); });
+  document.getElementById("fbslot").innerHTML = "";
+  const here = idx, canonical = order[idx][displayI];
+  try {
+    const r = await api({ action: "check", qid: here, choice: canonical });
+    busy = false;
+    if (idx !== here) return; // navigated away meanwhile
+    results[here] = { choice: canonical, correct: r.correct, exp: r.exp, right: canonical === r.correct };
+    stage.querySelectorAll(".opt").forEach(o => o.classList.remove("checking"));
+    lockAndFeedback(false);
+    setChrome();
+  } catch (err) {
+    busy = false;
+    if (idx !== here) return;
+    stage.querySelectorAll(".opt").forEach(o => { o.disabled = false; o.classList.remove("checking"); });
+    document.getElementById("fbslot").innerHTML =
+      `<div class="neterr">בעיית חיבור — התשובה לא נבדקה. בדקו את האינטרנט ולחצו שוב על התשובה.</div>`;
+  }
+}
+
+function lockAndFeedback(instant){
+  const q = QUESTIONS[idx], perm = order[idx], r = results[idx];
+  const chosenD = perm.indexOf(r.choice), correctD = perm.indexOf(r.correct);
+  const ok = r.right;
+  stage.querySelectorAll(".opt").forEach(o => {
+    o.disabled = true;
+    const i = +o.dataset.i;
+    if (i === correctD) o.classList.add("right");
+    else if (i === chosenD) o.classList.add("wrong");
+    else o.classList.add("dim");
+    const k = o.querySelector(".key");
+    if (i === correctD) k.textContent = "✓";
+    else if (i === chosenD) k.textContent = "✕";
+  });
+  const title = ok ? GOOD_T[idx % GOOD_T.length] : BAD_T[idx % BAD_T.length];
+  const body = ok ? esc(r.exp)
+    : `התשובה הנכונה: <b>${esc(q.o[r.correct])}</b><br>${esc(r.exp)}`;
+  document.getElementById("fbslot").innerHTML = `
+    <div class="fb ${ok ? "good" : "bad"}" ${instant ? 'style="animation:none"' : ""}>
+      <div class="fb-head">
+        <span class="tag">${ok ? "CLEAR!" : "MISS"}</span>
+        <span class="fb-title">${title}</span>
+      </div>
+      <div class="fb-body">${body}</div>
+    </div>`;
+  document.getElementById("next").disabled = false;
+  if (!instant) document.getElementById("fbslot").scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+// ---------- report ----------
+const levelOf = pct => LEVELS.slice().reverse().find(l => pct >= l.min);
+
+async function sendReport(){
+  const el = document.getElementById("sendnote");
+  if (!el || submitted) return;
+  el.className = "sendnote"; el.textContent = "שולח דוח למורה…";
+  const attempt = (parseInt(localStorage.getItem("lg-assess-attempts") || "0", 10) || 0) + 1;
+  try {
+    await api({
+      action: "submit",
+      name: studentName || "ללא שם",
+      serial,
+      answers: results.map(r => r.choice),
+      attempt,
+      durationSec: Math.round((Date.now() - startedAt) / 1000)
+    });
+    submitted = true;
+    localStorage.setItem("lg-assess-attempts", String(attempt));
+    el.className = "sendnote good"; el.textContent = "הדוח נשלח למורה ✓";
+  } catch (err) {
+    el.className = "sendnote bad";
+    el.innerHTML = `הדוח לא נשלח — <button class="linkbtn" id="resend">נסו שוב</button>`;
+    document.getElementById("resend").onclick = sendReport;
+  }
+}
+
+function renderReport(){
+  const perDom = DOMAINS.map((d,di) => {
+    const qs = QUESTIONS.map((q,i)=>({q,i})).filter(x => x.q.d === di);
+    const ok = qs.filter(x => results[x.i].right).length;
+    return { d, ok, n: qs.length, pct: ok / qs.length * 100 };
+  });
+  const okTotal = perDom.reduce((s,x)=>s+x.ok,0);
+  const pct = okTotal / total * 100;
+  const lvl = levelOf(pct);
+  const best  = perDom.slice().sort((a,b)=>b.pct-a.pct)[0];
+  const worst = perDom.slice().sort((a,b)=>a.pct-b.pct)[0];
+  const today = new Date().toLocaleDateString("he-IL",{year:"numeric",month:"long",day:"numeric"});
+
+  const review = QUESTIONS.map((q,i)=>{
+    const r = results[i];
+    return `<div class="rv ${r.right?"ok":"bad"}">
+      <span class="mark">${r.right ? "✓" : "✕"}</span>
+      <div>
+        <div class="rq">${String(i+1).padStart(2,"0")} · ${esc(q.q)}</div>
+        <div class="ra">${r.right
+          ? "ענית נכון: <b>" + esc(q.o[r.correct]) + "</b>"
+          : "התשובה שלך: " + esc(q.o[r.choice]) + "<br>התשובה הנכונה: <b>" + esc(q.o[r.correct]) + "</b>"}</div>
+      </div>
+    </div>`;
+  }).join("");
+
+  swap(`
+    <div class="eyebrow">
+      <span class="chip">דוח הערכה אישי</span>
+      <span class="world">PLAYER REPORT</span>
+    </div>
+    <h1 class="display" style="font-size:clamp(26px,4.5vw,38px)">${esc(studentName || "תלמיד/ת הקורס")}</h1>
+    <div class="report-meta">
+      <span>${today}</span><span>גיימינג בחינוך · 43 מפגשים · 12 עולמות</span><span>${serial}</span><span id="sendnote"></span>
+    </div>
+    <div class="verdict">
+      <div class="lvl-en">${lvl.en}</div>
+      <h2>רמת ${lvl.he}</h2>
+      <div class="scoreline">${okTotal} / ${total} תשובות נכונות · ${Math.round(pct)}%</div>
+      <p>${lvl.text}</p>
+    </div>
+    <div class="domhead">פירוט לפי תחומים</div>
+    <div class="domrows">
+      ${perDom.map(x => `
+        <div class="domrow">
+          <div class="dn">${esc(x.d.name)}<small>${x.d.en}</small></div>
+          <div class="gauge ${x===best && x.pct>=70 ? "top":""}"><i style="width:${x.pct}%"></i></div>
+          <div class="dl">${x.ok}/${x.n} · ${levelOf(x.pct).he}</div>
+        </div>`).join("")}
+    </div>
+    <div class="insights">
+      <div class="insight a">
+        <span class="tag">${best.pct>=70 ? "תחום מצטיין" : "התחום החזק"}</span>
+        <p><b>${esc(best.d.name)}.</b> ${best.pct>=70 ? esc(best.d.praise) : "כאן הציון הגבוה ביותר שלך — נקודת עוגן טובה להתקדם ממנה לשאר התחומים."}</p>
+      </div>
+      <div class="insight b">
+        <span class="tag">${worst.pct>=87.5 ? "האתגר הבא" : "כיוון לחיזוק"}</span>
+        <p>${worst.pct>=87.5
+          ? "שליטה מלאה בכל ששת התחומים. האתגר הבא: ללמד — הסבירו לחבר לכיתה מושג אחד מכל סעיף, זו הדרך הבטוחה לוודא שההבנה עמוקה באמת."
+          : "<b>" + esc(worst.d.name) + ".</b> " + esc(worst.d.tip)}</p>
+      </div>
+    </div>
+    <details class="review">
+      <summary>סקירת כל 36 התשובות</summary>
+      <div class="rvlist">${review}</div>
+    </details>
+    <div class="actions">
+      <button class="btn" onclick="window.print()">הדפסת הדוח</button>
+      <button class="btn ghost" id="again"><span dir="ltr">CONTINUE?</span> · הערכה מחדש</button>
+    </div>
+  `);
+  document.getElementById("again").onclick = () => {
+    results.fill(null); idx = -1; submitted = false; startedAt = 0;
+    order.forEach(p => p.sort(() => Math.random() - .5));
+    renderIntro();
+  };
+  sendReport();
+}
+
+// ---------- keyboard ----------
+document.addEventListener("keydown", e => {
+  if (idx < 0 || idx >= total) {
+    if (e.key === "Enter" && idx < 0 && document.activeElement?.id === "nm")
+      document.getElementById("start")?.click();
+    return;
+  }
+  if (["1","2","3","4"].includes(e.key) && results[idx] === null && !busy)
+    stage.querySelectorAll(".opt")[+e.key-1]?.click();
+  if (e.key === "Enter") { const n = document.getElementById("next"); if (n && !n.disabled) n.click(); }
+});
+
+renderIntro();
+</script>
+</body>
+</html>
