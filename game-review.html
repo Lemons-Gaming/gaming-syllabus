@@ -93,6 +93,9 @@ textarea.answer:focus{outline:none;box-shadow:3px 3px 0 var(--sky)}
 .btn.ghost{background:transparent;color:var(--ink);border:2.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);font-weight:700}
 .btn.ghost:not(:disabled):hover{box-shadow:5px 5px 0 var(--ink)}
 .hint{font-family:var(--grotesk);font-size:11.5px;letter-spacing:.08em;color:var(--muted);margin-top:18px}
+/* illustration figure */
+figure.illo{margin:0 0 28px;background:#fff;border:3px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--yellow);display:flex;align-items:center;justify-content:center;height:150px;overflow:hidden}
+figure.illo svg{max-width:100%;height:auto}
 /* finish */
 .verdict{background:#fff;border:3px solid var(--ink);border-radius:16px;padding:34px 28px;box-shadow:9px 9px 0 var(--mint);margin-bottom:24px;text-align:center}
 .verdict .lvl-en{font-family:var(--bungee);font-size:12px;letter-spacing:.22em;color:var(--muted);margin-bottom:10px}
@@ -115,6 +118,102 @@ textarea.answer:focus{outline:none;box-shadow:3px 3px 0 var(--sky)}
 </div>
 
 <script>
+/* ── per-screen illustrations ── */
+const ILLO = [
+  /* 0 intro: game controller + star */
+  `<svg viewBox="0 0 120 80" width="150" height="100" aria-hidden="true">
+    <rect x="14" y="26" width="92" height="40" rx="20" fill="#38bdf8" stroke="#1a1a1a" stroke-width="3"/>
+    <circle cx="38" cy="46" r="4" fill="#1a1a1a"/>
+    <rect x="32" y="42" width="12" height="8" rx="2" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+    <rect x="34" y="38" width="8" height="16" rx="2" fill="#1a1a1a"/>
+    <rect x="30" y="42" width="16" height="8" rx="2" fill="#1a1a1a"/>
+    <circle cx="80" cy="42" r="5" fill="#ff4f93" stroke="#1a1a1a" stroke-width="2.5"/>
+    <circle cx="92" cy="50" r="5" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.5"/>
+    <path d="M60 4 L64 14 L75 14 L66 21 L69 32 L60 25 L51 32 L54 21 L45 14 L56 14 Z" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round"/>
+  </svg>`,
+
+  /* 1 Q1 — האם זה משחק? arcade machine with "?" badge */
+  `<svg viewBox="0 0 120 100" width="150" height="125" aria-hidden="true">
+    <rect x="28" y="10" width="64" height="76" rx="10" fill="#fb923c" stroke="#1a1a1a" stroke-width="3"/>
+    <rect x="36" y="18" width="48" height="28" rx="5" fill="#1a1a1a"/>
+    <rect x="40" y="22" width="40" height="20" rx="3" fill="#38bdf8"/>
+    <rect x="44" y="52" width="32" height="14" rx="5" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.5"/>
+    <circle cx="52" cy="59" r="4" fill="#1a1a1a"/>
+    <circle cx="62" cy="59" r="4" fill="#1a1a1a"/>
+    <circle cx="96" cy="22" r="13" fill="#ff4f93" stroke="#1a1a1a" stroke-width="3"/>
+    <text x="96" y="28" text-anchor="middle" fill="#fff" font-family="serif" font-weight="900" font-size="16">?</text>
+  </svg>`,
+
+  /* 2 Q2 — מה הופך למשחק? interlocking puzzle pieces */
+  `<svg viewBox="0 0 120 90" width="150" height="112" aria-hidden="true">
+    <path d="M15 20 h22 v8 a6 6 0 0 1 0 12 v8 h-22 v-8 a6 6 0 0 0 0-12 z" fill="#6ee7b7" stroke="#1a1a1a" stroke-width="2.8" stroke-linejoin="round"/>
+    <path d="M57 20 h22 v8 a6 6 0 0 1 0 12 v8 h-22 v-8 a6 6 0 0 0 0-12 z" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.8" stroke-linejoin="round"/>
+    <path d="M15 62 h22 v8 a6 6 0 0 1 0 12 v8 h-22 v-8 a6 6 0 0 0 0-12 z" fill="#ff4f93" stroke="#1a1a1a" stroke-width="2.8" stroke-linejoin="round"/>
+    <path d="M57 62 h22 v8 a6 6 0 0 1 0 12 v8 h-22 v-8 a6 6 0 0 0 0-12 z" fill="#38bdf8" stroke="#1a1a1a" stroke-width="2.8" stroke-linejoin="round"/>
+  </svg>`,
+
+  /* 3 Q3 — מכניקה: two gears + joystick */
+  `<svg viewBox="0 0 120 90" width="150" height="112" aria-hidden="true">
+    <g transform="translate(28,40)">
+      <circle cx="0" cy="0" r="16" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.8"/>
+      <circle cx="0" cy="0" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+      <rect x="-4" y="-21" width="8" height="10" rx="2" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.5"/>
+      <rect x="-4" y="11" width="8" height="10" rx="2" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.5"/>
+      <rect x="11" y="-4" width="10" height="8" rx="2" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.5"/>
+      <rect x="-21" y="-4" width="10" height="8" rx="2" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.5"/>
+    </g>
+    <g transform="translate(72,34)">
+      <circle cx="0" cy="0" r="12" fill="#fb923c" stroke="#1a1a1a" stroke-width="2.8"/>
+      <circle cx="0" cy="0" r="5" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+      <rect x="-3" y="-16" width="6" height="8" rx="2" fill="#fb923c" stroke="#1a1a1a" stroke-width="2.5"/>
+      <rect x="-3" y="8" width="6" height="8" rx="2" fill="#fb923c" stroke="#1a1a1a" stroke-width="2.5"/>
+      <rect x="8" y="-3" width="8" height="6" rx="2" fill="#fb923c" stroke="#1a1a1a" stroke-width="2.5"/>
+      <rect x="-16" y="-3" width="8" height="6" rx="2" fill="#fb923c" stroke="#1a1a1a" stroke-width="2.5"/>
+    </g>
+    <rect x="91" y="56" width="8" height="28" rx="4" fill="#6ee7b7" stroke="#1a1a1a" stroke-width="2.5"/>
+    <circle cx="95" cy="54" r="7" fill="#6ee7b7" stroke="#1a1a1a" stroke-width="2.5"/>
+    <rect x="86" y="80" width="18" height="8" rx="4" fill="#38bdf8" stroke="#1a1a1a" stroke-width="2.5"/>
+  </svg>`,
+
+  /* 4 Q4 — שלבים: three ascending platforms + checkered flag */
+  `<svg viewBox="0 0 130 90" width="162" height="112" aria-hidden="true">
+    <rect x="5" y="68" width="32" height="16" rx="4" fill="#6ee7b7" stroke="#1a1a1a" stroke-width="2.8"/>
+    <rect x="42" y="52" width="32" height="32" rx="4" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.8"/>
+    <rect x="79" y="36" width="32" height="48" rx="4" fill="#ff4f93" stroke="#1a1a1a" stroke-width="2.8"/>
+    <line x1="95" y1="36" x2="95" y2="10" stroke="#1a1a1a" stroke-width="2.5"/>
+    <rect x="95" y="10" width="8" height="6" fill="#1a1a1a"/>
+    <rect x="95" y="16" width="8" height="6" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+    <rect x="99" y="10" width="4" height="6" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+    <rect x="99" y="16" width="4" height="6" fill="#1a1a1a"/>
+  </svg>`,
+
+  /* 5 Q5 — מה לימד: light bulb with rays */
+  `<svg viewBox="0 0 100 100" width="125" height="125" aria-hidden="true">
+    <circle cx="50" cy="44" r="22" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.8"/>
+    <path d="M42 66 Q40 76 45 80 h10 Q60 76 58 66 Z" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.5"/>
+    <rect x="44" y="80" width="12" height="4" rx="2" fill="#fb923c" stroke="#1a1a1a" stroke-width="2"/>
+    <rect x="44" y="86" width="12" height="4" rx="2" fill="#fb923c" stroke="#1a1a1a" stroke-width="2"/>
+    <line x1="50" y1="10" x2="50" y2="16" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+    <line x1="27" y1="17" x2="31" y2="22" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+    <line x1="14" y1="40" x2="20" y2="40" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+    <line x1="73" y1="17" x2="69" y2="22" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+    <line x1="86" y1="40" x2="80" y2="40" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+  </svg>`,
+
+  /* 6 Q6 — דירוג: trophy + stars */
+  `<svg viewBox="0 0 120 100" width="150" height="125" aria-hidden="true">
+    <path d="M42 10 h36 v30 a18 18 0 0 1-36 0 Z" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.8" stroke-linejoin="round"/>
+    <path d="M42 24 Q28 24 28 14 Q28 10 35 10" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+    <path d="M78 24 Q92 24 92 14 Q92 10 85 10" fill="none" stroke="#1a1a1a" stroke-width="2.8" stroke-linecap="round"/>
+    <rect x="52" y="58" width="16" height="14" rx="2" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2.5"/>
+    <rect x="36" y="72" width="48" height="8" rx="4" fill="#fb923c" stroke="#1a1a1a" stroke-width="2.5"/>
+    <path d="M18 88 L21 80 L26 88 L19 83 Z" fill="#ffd23f" stroke="#1a1a1a" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M60 6 L62 12 L68 12 L63 16 L65 22 L60 18 L55 22 L57 16 L52 12 L58 12 Z" fill="#ff4f93" stroke="#1a1a1a" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M96 88 L98 81 L102 88 L96 83 Z" fill="#6ee7b7" stroke="#1a1a1a" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M104 85 L106 79 L110 85 L104 81 Z" fill="#38bdf8" stroke="#1a1a1a" stroke-width="2" stroke-linejoin="round"/>
+  </svg>`,
+];
+
 const API_URL = "https://script.google.com/macros/s/AKfycbzmgmK8D84lfwPcGhnsPT5eg9M35tZ_tGSmKzw4NGKs8wsynM6PQeat4dyYAUfn73RLug/exec";
 const API_TOKEN = "2f8ea392126249cd2144433b";
 async function api(payload){
@@ -160,6 +259,7 @@ function render(){
 function renderIntro(){
   screen().innerHTML = `
     <div class="eyebrow"><span class="chip">ביקורת משחק</span><span class="world">GAME REVIEW</span></div>
+    <figure class="illo" aria-hidden="true">${ILLO[0]}</figure>
     <h1 class="display">מבקרים <mark>משחק</mark> כמו מקצוענים</h1>
     <p class="lede">שיחקתם במשחק? עכשיו תנתחו אותו. ענו על כמה שאלות קצרות — והביקורת נשלחת ישירות למורה.</p>
     <div class="field-row">
@@ -190,6 +290,7 @@ function renderQ(q){
   }
   screen().innerHTML = `
     <div class="eyebrow"><span class="chip">ביקורת משחק</span><span class="world">${data.game||"GAME REVIEW"}</span></div>
+    <figure class="illo" aria-hidden="true">${ILLO[step]}</figure>
     <h2 class="qtext">${q.t}</h2>
     ${body}
     <div class="nav">
