@@ -240,6 +240,7 @@ const QS = [
   { key:"q6", type:"rating", t:"6. תן דירוג למשחק 1-10" },
 ];
 
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 const el = id => document.getElementById(id);
 const screen = () => el("screen");
 
@@ -263,8 +264,8 @@ function renderIntro(){
     <h1 class="display">מבקרים <mark>משחק</mark> כמו מקצוענים</h1>
     <p class="lede">שיחקתם במשחק? עכשיו תנתחו אותו. ענו על כמה שאלות קצרות — והביקורת נשלחת ישירות למורה.</p>
     <div class="field-row">
-      <div class="field"><label for="f-name">השם שלך</label><input id="f-name" placeholder="שם מלא" value="${data.name}"></div>
-      <div class="field"><label for="f-game">שם המשחק ששיחקת</label><input id="f-game" placeholder="לדוגמה: מצא את הצורה" value="${data.game}"></div>
+      <div class="field"><label for="f-name">השם שלך</label><input id="f-name" placeholder="שם מלא" value="${esc(data.name)}"></div>
+      <div class="field"><label for="f-game">שם המשחק ששיחקת</label><input id="f-game" placeholder="לדוגמה: מצא את הצורה" value="${esc(data.game)}"></div>
     </div>
     <div class="nav"><span></span><button class="btn" id="next" disabled>בואו נתחיל</button></div>
     <p class="hint">הביקורת מגיעה למורה כטבלה ונשמרת בגיליון מרוכז.</p>`;
@@ -283,13 +284,13 @@ function renderQ(q){
       <button class="opt ${data[q.key]==="לא"?"sel":""}" data-v="לא"><span class="key">&#10005;</span><span class="txt">לא</span></button>
     </div>`;
   } else if(q.type==="text"){
-    body = `<textarea class="answer" id="ta" placeholder="${q.ph}">${data[q.key]}</textarea>`;
+    body = `<textarea class="answer" id="ta" placeholder="${q.ph}">${esc(data[q.key])}</textarea>`;
   } else if(q.type==="rating"){
     let r=""; for(let i=1;i<=10;i++){ r+=`<button class="rbtn ${String(data[q.key])===String(i)?"sel":""}" data-v="${i}">${i}</button>`; }
     body = `<div class="rating">${r}</div>`;
   }
   screen().innerHTML = `
-    <div class="eyebrow"><span class="chip">ביקורת משחק</span><span class="world">${data.game||"GAME REVIEW"}</span></div>
+    <div class="eyebrow"><span class="chip">ביקורת משחק</span><span class="world">${data.game ? esc(data.game) : "GAME REVIEW"}</span></div>
     <figure class="illo" aria-hidden="true">${ILLO[step]}</figure>
     <h2 class="qtext">${q.t}</h2>
     ${body}
@@ -310,11 +311,11 @@ function renderQ(q){
 }
 function saveQ(q){ if(q.type==="text"){ const ta=el("ta"); if(ta) data[q.key]=ta.value; } }
 
-function showSubmitError(btn){
+function showSubmitError(){
   let fb = el("submit-fb");
   if(!fb){ fb = document.createElement("p"); fb.id = "submit-fb"; fb.className = "fb bad"; el("next").insertAdjacentElement("afterend", fb); }
   fb.innerHTML = `שגיאה בשליחה — <button class="linkbtn" id="retry-btn">נסו שוב</button>`;
-  el("retry-btn").onclick = () => submitReview(btn);
+  el("retry-btn").onclick = () => submitReview(document.getElementById("next"));
 }
 
 async function submitReview(btn){
@@ -330,7 +331,7 @@ async function submitReview(btn){
   } catch(err) {
     btn.disabled = false;
     btn.textContent = old;
-    showSubmitError(btn);
+    showSubmitError();
   }
 }
 
@@ -338,8 +339,8 @@ function renderFinish(){
   screen().innerHTML = `
     <div class="verdict">
       <div class="lvl-en">REVIEW SENT</div>
-      <h2>תודה, ${data.name||"שחקן"}!</h2>
-      <p>הביקורת שלך על &#171;${data.game||"המשחק"}&#187; נשלחה למורה ונשמרה.</p>
+      <h2>תודה, ${data.name ? esc(data.name) : "שחקן"}!</h2>
+      <p>הביקורת שלך על &#171;${data.game ? esc(data.game) : "המשחק"}&#187; נשלחה למורה ונשמרה.</p>
     </div>
     <div class="nav"><span></span><button class="btn ghost" id="again">ביקורת על משחק נוסף</button></div>`;
   el("again").onclick=()=>{ step=0; for(const k in data) data[k]=""; render(); };
