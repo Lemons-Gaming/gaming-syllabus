@@ -98,6 +98,10 @@ textarea.answer:focus{outline:none;box-shadow:3px 3px 0 var(--sky)}
 .verdict .lvl-en{font-family:var(--bungee);font-size:12px;letter-spacing:.22em;color:var(--muted);margin-bottom:10px}
 .verdict h2{font-family:var(--rubik);font-weight:900;font-size:clamp(30px,5vw,44px);line-height:1.15}
 .verdict p{margin-top:14px;font-size:17px;color:var(--muted)}
+/* submit feedback */
+.fb{margin-top:12px;font-family:var(--grotesk);font-weight:700;font-size:14px}
+.fb.bad{color:var(--pink)}
+.linkbtn{background:none;border:none;font:inherit;color:inherit;text-decoration:underline;cursor:pointer;padding:0}
 </style>
 </head>
 <body>
@@ -111,6 +115,20 @@ textarea.answer:focus{outline:none;box-shadow:3px 3px 0 var(--sky)}
 </div>
 
 <script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzmgmK8D84lfwPcGhnsPT5eg9M35tZ_tGSmKzw4NGKs8wsynM6PQeat4dyYAUfn73RLug/exec";
+const API_TOKEN = "2f8ea392126249cd2144433b";
+async function api(payload){
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(Object.assign({ token: API_TOKEN }, payload))
+  });
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  const json = await res.json();
+  if (!json.ok) throw new Error(json.error || "server error");
+  return json;
+}
+
 let step = 0; // 0 intro, 1-6 questions, 7 finish
 const data = { name:"", game:"", q1:"", q2:"", q3:"", q4:"", q5:"", q6:"" };
 const QS = [
@@ -145,14 +163,15 @@ function renderIntro(){
     <h1 class="display">מבקרים <mark>משחק</mark> כמו מקצוענים</h1>
     <p class="lede">שיחקתם במשחק? עכשיו תנתחו אותו. ענו על כמה שאלות קצרות — והביקורת נשלחת ישירות למורה.</p>
     <div class="field-row">
-      <div class="field"><label>השם שלך</label><input id="f-name" placeholder="שם מלא" value="${data.name}"></div>
-      <div class="field"><label>שם המשחק ששיחקת</label><input id="f-game" placeholder="לדוגמה: מצא את הצורה" value="${data.game}"></div>
+      <div class="field"><label for="f-name">השם שלך</label><input id="f-name" placeholder="שם מלא" value="${data.name}"></div>
+      <div class="field"><label for="f-game">שם המשחק ששיחקת</label><input id="f-game" placeholder="לדוגמה: מצא את הצורה" value="${data.game}"></div>
     </div>
     <div class="nav"><span></span><button class="btn" id="next" disabled>בואו נתחיל</button></div>
     <p class="hint">הביקורת מגיעה למורה כטבלה ונשמרת בגיליון מרוכז.</p>`;
   const nm=el("f-name"), gm=el("f-game"), nx=el("next");
   const chk=()=>{ data.name=nm.value.trim(); data.game=gm.value.trim(); nx.disabled=!(data.name&&data.game); };
   nm.oninput=chk; gm.oninput=chk; chk(); nm.focus();
+  api({ action:"ping" }).catch(()=>{});
   nx.onclick=()=>{ step=1; render(); };
 }
 
@@ -178,7 +197,11 @@ function renderQ(q){
       <button class="btn" id="next">${step===6?"שליחת הביקורת":"הבא"}</button>
     </div>`;
   el("prev").onclick=()=>{ saveQ(q); step--; render(); };
-  el("next").onclick=()=>{ saveQ(q); step++; render(); };
+  if(step===6){
+    el("next").onclick=()=>{ saveQ(q); submitReview(el("next")); };
+  } else {
+    el("next").onclick=()=>{ saveQ(q); step++; render(); };
+  }
   if(q.type==="text"){ el("ta").focus(); }
   screen().querySelectorAll(".opt,.rbtn").forEach(b=>{
     b.onclick=()=>{ data[q.key]=b.dataset.v; render(); };
@@ -186,8 +209,31 @@ function renderQ(q){
 }
 function saveQ(q){ if(q.type==="text"){ const ta=el("ta"); if(ta) data[q.key]=ta.value; } }
 
+function showSubmitError(btn){
+  let fb = el("submit-fb");
+  if(!fb){ fb = document.createElement("p"); fb.id = "submit-fb"; fb.className = "fb bad"; el("next").insertAdjacentElement("afterend", fb); }
+  fb.innerHTML = `שגיאה בשליחה — <button class="linkbtn" id="retry-btn">נסו שוב</button>`;
+  el("retry-btn").onclick = () => submitReview(btn);
+}
+
+async function submitReview(btn){
+  btn.disabled = true;
+  const old = btn.textContent;
+  btn.textContent = "שולח ביקורת…";
+  const fb = el("submit-fb");
+  if(fb) fb.remove();
+  try {
+    await api({ action:"review", name:data.name, game:data.game,
+      q1:data.q1, q2:data.q2, q3:data.q3, q4:data.q4, q5:data.q5, q6:data.q6 });
+    step = 7; render();
+  } catch(err) {
+    btn.disabled = false;
+    btn.textContent = old;
+    showSubmitError(btn);
+  }
+}
+
 function renderFinish(){
-  console.log("[game-review] survey complete:", JSON.stringify(data));
   screen().innerHTML = `
     <div class="verdict">
       <div class="lvl-en">REVIEW SENT</div>
